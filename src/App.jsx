@@ -7,7 +7,7 @@ function App() {
   return (
    <div>
     <NavigationBar/>
-    <div className='max-w-6xl mx-auto p-3'>
+    <div className='max-w-full mx-auto min-h-screen p-3'>
       <Outlet/>
     </div>
    </div>
