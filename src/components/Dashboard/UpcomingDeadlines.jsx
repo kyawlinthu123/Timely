@@ -25,7 +25,7 @@ export default function UpcomingDeadlines() {
         </ul>
       </div>
 
-      <button className="mt-4 self-end text-sm text-black font-semibold p-2 rounded-xl bg-green-300">
+      <button className="mt-4 self-end px-4 py-2 bg-green-400 hover:bg-green-500 text-black font-semibold rounded-lg">
         View all
       </button>
     </div>
