@@ -1,15 +1,36 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import AddClassForm from "./AddClassForm";
+import SingleClass from "./SingleClass";
 
 export default function ClassList() {
+  const [myClasses, setMyClasses] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
+
+  // load datas from local storage on mount if there's any
+  useEffect(()=>{
+    const storedClasses = localStorage.getItem("myClasses")
+    if (storedClasses){
+      setMyClasses(JSON.parse(storedClasses))
+    }
+  },[])
+
+  // add a new class to local storage
+  const addNewClassFunction = (addedClass) => {
+    setMyClasses((prevClasses)=>{
+      const updatedClasses = [...prevClasses,addedClass]
+      localStorage.setItem("myClasses", JSON.stringify(updatedClasses))
+      return updatedClasses;
+    })
+    setShowAddForm(false);
+  };
 
   return (
     <div>
       <div className="flex justify-between">
-        <h2 className="text-2xl font-semibold">
-          Click on a class to view assignments, notes, and stats
+        <h2 className="text-xl font-semibold">
+        💬 Click on a class to view assignments, notes, and stats
         </h2>
         <button
           className="self-end px-4 py-2 bg-green-400 hover:bg-green-500 text-black font-semibold rounded-lg"
@@ -18,29 +39,23 @@ export default function ClassList() {
           Add Class
         </button>
       </div>
-      <div className="grid grid-cols-3 gap-2 mt-6 ">
-        {/* first card */}
-        <div className="max-w-sm p-6 bg-white border text-black border-gray-200 rounded-lg shadow-sm">
-          <a href="#">
-            <h5 className="mb-2 text-2xl font-bold">
-              CS101: Intro to Computer Science
-            </h5>
-          </a>
-          <p className="mb-3 font-normal ">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            Asperiores, veniam. Tempora ullam accusamus, optio minus dolor
-            impedit porro. Asperiores eos et eum voluptate. Qui est, eum in
-            molestiae blanditiis aut?
-          </p>
-          <Link
-            to="/"
-            className="px-4 py-2 bg-green-400 hover:bg-green-500 text-black font-semibold rounded-lg"
-          >
-            View
-          </Link>
-        </div>
+      {
+        myClasses.length > 0 ? (
+          <div className="grid grid-cols-3 gap-2 mt-6 ">
+        {myClasses.map((myClass, index) => (
+          <SingleClass key={index} myClass={myClass} />
+        ))}
       </div>
-      {showAddForm && <AddClassForm setShowAddForm={setShowAddForm} />}
+        ):(
+          <span className="text-xl text-gray-400 font-semibold flex justify-center items-center md:h-96"> No class yet... </span>
+        )
+      }
+      {showAddForm && (
+        <AddClassForm
+          addNewClassFunction={addNewClassFunction}
+          setShowAddForm={setShowAddForm}
+        />
+      )}
     </div>
   );
 }

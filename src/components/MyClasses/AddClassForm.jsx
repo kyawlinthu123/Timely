@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function AddClassForm({ setShowAddForm }) {
+export default function AddClassForm({addNewClassFunction,setShowAddForm}) {
+
+  const [title,setTitle] = useState("");
+  const [instructor,setInstructor] = useState("");
+  const [description,setDescription] = useState("")
+
+  const addNewClassHandler = (event) => {
+        event.preventDefault();
+        const newClass = {
+            title,
+            instructor,
+            description
+        };
+        addNewClassFunction(newClass);
+        console.log('A new class addded successfully')
+    }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <form className="bg-white text-black rounded-2xl shadow-2xl p-6 w-full max-w-md space-y-5 animate-scaleIn">
-        <h2 className="text-xl font-semibold text-center border-b pb-2">
-          Add a New Class
+      <form 
+      className="bg-white text-black rounded-2xl shadow-2xl p-6 w-full max-w-md space-y-5 animate-scaleIn"
+      onSubmit={addNewClassHandler}
+      >
+        <h2 className="text-xl font-semibold text-center border-b pb-2 text-shadow-lg">
+          🆕 Add a new Class
         </h2>
         <div>
           <label
@@ -17,6 +36,8 @@ export default function AddClassForm({ setShowAddForm }) {
           <input
             type="text"
             id="class-name"
+            value={title}
+            onChange={(event)=>setTitle(event.target.value)}
             // placeholder="e.g., Introduction to Web Development"
             className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none"
             required
@@ -32,6 +53,8 @@ export default function AddClassForm({ setShowAddForm }) {
           <input
             type="text"
             id="instructor"
+            value={instructor}
+            onChange={(event)=>setInstructor(event.target.value)}
             // placeholder="e.g., Mr. Aung Kyaw"
             className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none"
           />
@@ -46,6 +69,8 @@ export default function AddClassForm({ setShowAddForm }) {
           <textarea
             id="description"
             rows="3"
+            value={description}
+            onChange={(event)=>setDescription(event.target.value)}
             // placeholder="Write a short description for this class..."
             className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none resize-none"
           ></textarea>

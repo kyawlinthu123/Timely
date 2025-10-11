@@ -12,13 +12,14 @@ export default function CalendarWidget() {
   const dayNotes = notes[formattedDate] || [];
 
   return (
-    <div className="bg-gray-100 rounded-2xl shadow-md p-6 w-full h-[28rem] flex flex-col">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">Calendar</h2>
-
+    <div className="bg-gray-100 rounded-2xl p-6 w-full h-[28rem] flex flex-col shadow-xl/30">
+      <h2 className="text-lg font-bold text-gray-800 mb-4">
+        📅 Calendar
+      </h2>
       <Calendar
         onChange={setDate}
         value={date}
-        className="rounded-xl border-none shadow-sm"
+        className="rounded-xl border-none shadow-lg"
       />
 
       <div className="mt-4">

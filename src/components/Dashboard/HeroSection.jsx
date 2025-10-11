@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function HeroSection() {
   return (
-    <h1 className='mt-2 text-gray-900 font-bold'> 
+    <h1 className='mt-1 text-gray-900 font-bold text-shadow-sm'> 
         <span className='text-3xl'>
             🎓 Welcome back!
         </span> 

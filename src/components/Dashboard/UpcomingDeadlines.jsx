@@ -8,17 +8,17 @@ export default function UpcomingDeadlines() {
   ];
 
   return (
-    <div className="bg-gray-100 rounded-2xl shadow-md p-6 w-full min-h-96 flex flex-col">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">
-        Upcoming Deadlines
+    <div className="bg-gray-100 rounded-2xl shadow-xl/30 p-6 w-full min-h-96 flex flex-col">
+      <h2 className="text-lg font-bold text-gray-800 mb-4">
+        ⏳ Upcoming Deadlines
       </h2>
 
       <div className="flex-1 overflow-y-auto">
         <ul className="space-y-3">
             <li
-              className="bg-white font-semibold rounded-lg p-3"
+              className="bg-teal-200 hover:bg-teal-300 font-semibold rounded-lg p-3 shadow-xl/30 shadow-teal-400 border-2 border-green-400"
             >
-              <p className="font-medium">Essay Draft</p>
+              <p className="font-bold">❗Essay Draft</p>
               <p className="text-sm text-gray-500">English</p>
               <p className="text-xs text-gray-400">Due: Oct 15</p>
             </li>
@@ -26,7 +26,7 @@ export default function UpcomingDeadlines() {
       </div>
 
       <button className="mt-4 self-end px-4 py-2 bg-green-400 hover:bg-green-500 text-black font-semibold rounded-lg">
-        View all
+        View All
       </button>
     </div>
   );

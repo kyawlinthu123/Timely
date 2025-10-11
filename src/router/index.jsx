@@ -2,6 +2,7 @@ import {createBrowserRouter} from "react-router-dom";
 import App from "../App";
 import Dashboard from "../pages/Dashboard";
 import MyClassesContent from "../pages/MyClassesContent";
+import SingleClassDetails from "../components/MyClasses/SingleClassDetails";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "/my-classes",
         element: <MyClassesContent/>
+      },
+      {
+        path: "/class-details",
+        element: <SingleClassDetails/>
       }
     ]
   },
