@@ -51,7 +51,7 @@ export default function NavigationBar() {
         <li className="font-bold text-xl ">
           <ul>
             <Link to="/">
-              <span className="font-bold text-2xl text-black">Frist</span>
+              <span className="font-bold text-2xl text-black">Timely</span>
             </Link>
           </ul>
         </li>
