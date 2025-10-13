@@ -10,6 +10,7 @@ export default function SingleClass({myClass}) {
       <p className="mb-6 font-normal ">{myClass.description}</p>
       <Link
         to="/class-details"
+        state={myClass}
         className="px-4 py-2 bg-green-400 hover:bg-green-500 text-black font-semibold rounded-lg"
       >
         View
