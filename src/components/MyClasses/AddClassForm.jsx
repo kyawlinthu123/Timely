@@ -38,7 +38,6 @@ export default function AddClassForm({addNewClassFunction,setShowAddForm}) {
             id="class-name"
             value={title}
             onChange={(event)=>setTitle(event.target.value)}
-            // placeholder="e.g., Introduction to Web Development"
             className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none"
             required
           />
@@ -55,7 +54,6 @@ export default function AddClassForm({addNewClassFunction,setShowAddForm}) {
             id="instructor"
             value={instructor}
             onChange={(event)=>setInstructor(event.target.value)}
-            // placeholder="e.g., Mr. Aung Kyaw"
             className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none"
           />
         </div>
@@ -71,7 +69,6 @@ export default function AddClassForm({addNewClassFunction,setShowAddForm}) {
             rows="3"
             value={description}
             onChange={(event)=>setDescription(event.target.value)}
-            // placeholder="Write a short description for this class..."
             className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none resize-none"
           ></textarea>
         </div>

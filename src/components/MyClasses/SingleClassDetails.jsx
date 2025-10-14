@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import AssignmentTable from '../MyAssignments/AssignmentTable';
 
 export default function SingleClassDetails() {
   const location = useLocation();
@@ -7,7 +8,12 @@ export default function SingleClassDetails() {
 
   return (
     <div className='max-w-6xl mx-auto'>
-      {singleClassData && <h1 className='flex justify-center items-center text-2xl'> {singleClassData.title} </h1>}
+      {singleClassData && 
+      <div>
+      <h1 className='text-2xl font-bold mt-2 mb-2'>📚 {singleClassData.title} </h1>
+      <AssignmentTable singleClassData={singleClassData}/>
+      </div>
+      }
     </div>
   )
 }
