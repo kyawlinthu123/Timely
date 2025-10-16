@@ -37,9 +37,9 @@ export default function AssignmentTable({ singleClassData }) {
   return (
     <div className="max-w-6xl mx-auto mt-10 overflow-x-auto bg-white border border-green-400 rounded-xl shadow-xl/30">
       <table className="w-full text-left text-gray-700">
-        <caption class="p-5 text-xl font-bold text-left bg-white border border-green-400 gap-1">
+        <caption className="p-5 text-xl font-bold text-left bg-white border border-green-400 gap-1">
           📚 {singleClassData.title} Assignments
-          <p class="mt-1 text-sm font-normal text-gray-600">
+          <p className="mt-1 text-sm font-normal text-gray-600">
             View, track, and manage all assignments related to this class.
           </p>
           <div className="flex gap-2">
