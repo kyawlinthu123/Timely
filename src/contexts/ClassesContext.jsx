@@ -23,6 +23,13 @@ export default function ClassesProvider({ children }) {
     setShowAddForm(false);
   };
 
+//   delete a class from myCLasses both in UI and localStorage
+const removeClassFunction = () => {
+    setMyClasses((prevClasses)) {
+        
+    }
+}
+
   return (
     <ClassesContext.Provider value={{myClasses,setMyClasses,addNewClassFunction}}>
         {children}

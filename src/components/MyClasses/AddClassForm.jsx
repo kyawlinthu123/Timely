@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { ClassesContext } from "../../contexts/ClassesContext";
 
-export default function AddClassForm({addNewClassFunction,setShowAddForm}) {
+export default function AddClassForm({setShowAddForm}) {
 
   const [title,setTitle] = useState("");
   const [instructor,setInstructor] = useState("");
   const [description,setDescription] = useState("")
+  const {addNewClassFunction} = useContext(ClassesContext);
 
   const addNewClassHandler = (event) => {
         event.preventDefault();
