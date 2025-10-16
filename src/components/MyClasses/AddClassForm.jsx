@@ -16,7 +16,7 @@ export default function AddClassForm({setShowAddForm}) {
             description
         };
         addNewClassFunction(newClass);
-        console.log('A new class addded successfully')
+        console.log('A new class added successfully')
     }
 
   return (

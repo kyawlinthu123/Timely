@@ -46,6 +46,7 @@ export default function ClassList() {
           </button>
         </div>
       </div>
+      {/* mapping myClasses and conditional rendering*/}
       {myClasses.length > 0 ? (
         <div className="grid grid-cols-3 gap-2 mt-6 ">
           {myClasses.map((myClass, index) => (
