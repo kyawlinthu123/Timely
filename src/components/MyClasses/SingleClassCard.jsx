@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import "./CardWiggleAnimation.css"
+import { ClassesContext } from "../../contexts/ClassesContext";
 
-export default function SingleClass({ myClass, isManaging }) {
+export default function SingleClass({myClass}) {
+
+  const {removeClass, isManaging} = useContext(ClassesContext);
+
   return (
     <div
       className={`class-card relative max-w-sm p-6 bg-white border-2 text-black border-green-400 rounded-xl shadow-xl/30 transition-transform ${
@@ -12,7 +16,10 @@ export default function SingleClass({ myClass, isManaging }) {
       <div className="flex justify-between">
         <h5 className="mb-2 text-2xl font-bold">📚 {myClass.title}</h5>
         {isManaging && (
-          <button>
+          <button 
+          className="hover:bg-gray-200 rounded-2xl"
+          onClick={()=>removeClass(myClass.title)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -28,15 +35,21 @@ export default function SingleClass({ myClass, isManaging }) {
           </button>
         )}
       </div>
-      <span className="text-sm text-gray-500">by {myClass.author}</span>
+      <span className="text-sm text-gray-500">by {myClass.instructor}</span>
       <p className="mb-6 font-normal ">{myClass.description}</p>
-      <Link
-        to="/class-details"
-        state={myClass}
-        className="px-4 py-2 bg-green-400 hover:bg-green-500 text-black font-semibold rounded-lg"
-      >
-        View
-      </Link>
+      <div className="flex gap-2 text-left">
+        <Link
+          to={`/class-details/${myClass.title}`}
+          state={myClass}
+          className="px-4 py-2 font-semibold text-black bg-green-400 rounded-lg hover:bg-green-500"
+        >
+          View
+        </Link>
+        {isManaging && 
+        <button className="px-4 py-2 font-semibold bg-gray-200 border-green-400 rounded-lg shadow hover:bg-gray-300">
+          Edit
+        </button>}
+      </div>
     </div>
   );
 }

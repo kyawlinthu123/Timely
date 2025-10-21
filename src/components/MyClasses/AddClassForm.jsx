@@ -6,26 +6,27 @@ export default function AddClassForm({setShowAddForm}) {
   const [title,setTitle] = useState("");
   const [instructor,setInstructor] = useState("");
   const [description,setDescription] = useState("")
-  const {addNewClassFunction} = useContext(ClassesContext);
+  
+  const {addNewClass} = useContext(ClassesContext);
 
   const addNewClassHandler = (event) => {
-        event.preventDefault();
+        event.preventDefault()
         const newClass = {
             title,
             instructor,
             description
-        };
-        addNewClassFunction(newClass);
-        console.log('A new class added successfully')
+        }
+        addNewClass(newClass)
+        setShowAddForm(false);
     }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
       <form 
-      className="bg-white text-black rounded-2xl shadow-2xl p-6 w-full max-w-md space-y-5 animate-scaleIn"
+      className="w-full max-w-md p-6 space-y-5 text-black bg-white shadow-2xl rounded-2xl animate-scaleIn"
       onSubmit={addNewClassHandler}
       >
-        <h2 className="text-xl font-semibold text-center border-b pb-2 text-shadow-lg">
+        <h2 className="pb-2 text-xl font-semibold text-center border-b text-shadow-lg">
           🆕 Add a new Class
         </h2>
         <div>
@@ -74,17 +75,17 @@ export default function AddClassForm({setShowAddForm}) {
             className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none resize-none"
           ></textarea>
         </div>
-        <div className="flex justify-end space-x-3 pt-2">
+        <div className="flex justify-end pt-2 space-x-3">
           <button
             type="button"
             onClick={() => setShowAddForm(false)}
-            className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg font-medium"
+            className="px-4 py-2 font-medium bg-gray-200 rounded-lg hover:bg-gray-300"
           >
             Close
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-green-400 hover:bg-green-500 text-black font-semibold rounded-lg"
+            className="px-4 py-2 font-semibold text-black bg-green-400 rounded-lg hover:bg-green-500"
           >
             Add
           </button>
