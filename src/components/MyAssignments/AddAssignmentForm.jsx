@@ -11,24 +11,26 @@ export default function AddAssignmentForm({singleClassData}) {
 
   const {addNewAssignment, setShowAddAssignmentForm} = useContext(AssignmentsContext);
 
-  // for created date and time feature
-  const [createdAt, setCreatedAt] = useState("");
-  useEffect(() => {
-    const now = new Date();
-    setCreatedAt(now.toISOString());
-  }, []);
+  //  for created date and time feature
+  // const [createdAt, setCreatedAt] = useState("");
+  // useEffect(() => {
+  //   const now = new Date();
+  //   setCreatedAt(now.toISOString());
+  // }, []);
 
   const addNewAssignmentHandler = (event) =>{
     event.preventDefault();
-    const newAssignment = {
+   try { const newAssignment = {
       assignmentTitle,
       classTitle : singleClassData.title,
       priority,
-      deadline,
-      createdAt
+      deadline
     }
     addNewAssignment(newAssignment);
-    setShowAddAssignmentForm(false);
+    setShowAddAssignmentForm(false);}
+    catch(error) {
+      console.error("Submit failed:", error);
+    }
   }
 
   return (
@@ -47,7 +49,7 @@ export default function AddAssignmentForm({singleClassData}) {
             htmlFor="assignment-name"
             className="block mb-2 text-sm font-medium text-gray-800"
           >
-            Assignment name
+            Assignment
           </label>
           <input
             type="text"
@@ -65,13 +67,13 @@ export default function AddAssignmentForm({singleClassData}) {
             htmlFor="class-name"
             className="block mb-2 text-sm font-medium text-gray-800"
           >
-            Class name
+            Class
           </label>
           <input
             type="text"
             id="class-name"
             className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none read-only:cursor-not-allowed"
-            defaultValue={singleClassData.title}
+            value={singleClassData.title}
             readOnly
           />
         </div>
@@ -97,28 +99,32 @@ export default function AddAssignmentForm({singleClassData}) {
               <option value="high">High</option>
             </select>
           </div>
-          </div>
 
           {/* Deadline */}
           <div className="w-1/2">
-          <input class="hs-datepicker py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-600 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:border-blue-500 dark:focus:ring-neutral-500" type="text" placeholder="Select day" readonly="" data-hs-datepicker='{
-    "type": "default",
-    "dateMax": "2050-12-31",
-    "mode": "custom-select",
-    "templates": {
-      "arrowPrev": "<button data-vc-arrow=\"prev\"><svg class=\"shrink-0 size-4\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m15 18-6-6 6-6\"></path></svg></button>",
-      "arrowNext": "<button data-vc-arrow=\"next\"><svg class=\"shrink-0 size-4\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 18 6-6-6-6\"></path></svg></button>"
-    }
-  }'></input>
+            <label
+              htmlFor="assignment-deadline"
+              className="block mb-2 text-sm font-medium text-gray-800"
+            >
+              Deadline
+            </label>
+            <input
+              type="datetime-local"
+              id="assignment-deadline"
+              value={deadline}
+              onChange={(event)=> setDeadline(event.target.value)}
+              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none"
+            />
+          </div>
         </div>
 
-        {/* Created At (hidden field, stored only) */}
+        {/* Created At (hidden field, stored only)
         <input
           type="hidden"
           id="assignment-created-at"
           value={createdAt}
           readOnly
-        />
+        /> */}
 
         {/* Buttons */}
         <div className="flex justify-end pt-2 space-x-3">

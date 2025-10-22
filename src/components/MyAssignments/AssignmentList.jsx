@@ -7,7 +7,7 @@ export default function AssignmentTable({ singleClassData }) {
 
   // const {manageAssignment,setManageAssignment, showAddAssignmentForm, setShowAddAssignmentForm} = useContext(AssignmentsContext);
 
-  const {manageAssignment,setManageAssignment,showAddAssignmentForm,setShowAddAssignmentForm} = useContext(AssignmentsContext)
+  const {myAssignments,manageAssignment,setManageAssignment,showAddAssignmentForm,setShowAddAssignmentForm} = useContext(AssignmentsContext)
 
    //  stop wiggle effect on cards when clicked outside any card on screen
     useEffect(() => {
@@ -47,9 +47,11 @@ export default function AssignmentTable({ singleClassData }) {
             {manageAssignment ? "Done" : "Manage"}
           </button>
         </div>
-      </div>
-      <div className="m-4">
-        <AssignmentCard />
+      </div>  
+        <div className="m-3">
+        {myAssignments.map((myAssignment, index)=>{
+          <AssignmentCard key={index} myAssignment={myAssignment}/>
+        })}
       </div>
       {showAddAssignmentForm && <AddAssignmentForm singleClassData={singleClassData}/>}
     </div>

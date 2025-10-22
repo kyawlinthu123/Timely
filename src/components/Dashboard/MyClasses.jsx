@@ -18,9 +18,9 @@ export default function MyClasses() {
               to={`/class-details/${myClass.title}`}
               state={myClass}
               className="m-0.5"
+              key={index}
               >
                 <li
-                key={index}
                 className="p-3 font-semibold transition bg-teal-200 border-2 border-green-400 rounded-lg hover:bg-teal-300 shadow-xl/30 shadow-teal-400"
                             >
                   <p className="font-bold cursor-pointer">📌 {myClass.title} </p>

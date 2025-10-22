@@ -15,11 +15,11 @@ export default function AssignmentsProvider({children}){
     },[])
 
 const addNewAssignment = (addedAssignment) => {
-    setMyAssignments((prevAssignments) => {
-        const updatedAssignments = [...prevAssignments,addedAssignment]
-        localStorage.setItem("myAssignments",JSON.stringify(updatedAssignments));
-    })
+    const updatedAssignments = [...myAssignments, addedAssignment];
+    setMyAssignments(updatedAssignments);
+    localStorage.setItem("myAssignments", JSON.stringify(updatedAssignments));
 }
+
 return (
     <AssignmentsContext.Provider value={{myAssignments,setMyAssignments,addNewAssignment, manageAssignment, setManageAssignment, showAddAssignmentForm, setShowAddAssignmentForm}}>
         {children}

@@ -50,7 +50,6 @@ export default function ClassList() {
             <SingleClassCard
               key={index}
               myClass={myClass}
-              isManaging={isManaging}
             />
           ))}
         </div>

@@ -2,26 +2,26 @@
 import React, { useContext } from "react";
 import { AssignmentsContext } from "../../contexts/AssignmentsContext";
 
-export default function AssignmentCard() {
+export default function AssignmentCard({myAssignment}) {
 
-  const {manageAssignment} = useContext(AssignmentsContext);
+  const {myAssignments,manageAssignment} = useContext(AssignmentsContext);
 
   return (
     <div className="flex flex-col items-center justify-between w-full p-5 mb-3 transition bg-gray-100 border border-green-400 shadow-md md:flex-row md:items-center rounded-2xl hover:shadow-lg hover:scale-101">
       <div className="flex flex-col gap-1">
         <h3 className="text-lg font-semibold text-gray-800">
-          📌 Install Figma on Windows Server
+          📌 {myAssignment.assignmentTitle}
         </h3>
         <p className="text-sm text-gray-600">🕒 Created at 22 August 2024</p>
       </div>
 
       {!manageAssignment && <div className="flex flex-wrap items-center gap-3 mt-3 md:mt-0">
         <span className="flex items-center gap-1 px-3 py-1 text-sm font-medium text-white bg-red-400 rounded-full">
-          🔔 High
+          🔔 {myAssignment.priority}
         </span>
 
         <span className="flex items-center gap-1 px-3 py-1 text-sm font-medium text-white bg-blue-400 rounded-full">
-          ⏳ 23 May 2024
+          ⏳ {myAssignment.deadline}
         </span>
 
         <span className="flex items-center gap-1 px-2 py-1 text-sm font-medium text-white rounded-full bg-amber-400">
