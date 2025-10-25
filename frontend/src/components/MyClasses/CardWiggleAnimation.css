@@ -1,0 +1,12 @@
+@keyframes wiggle {
+  0% { transform: rotate(-1deg); }
+  25% { transform: rotate(1.5deg); }
+  50% { transform: rotate(-1.5deg); }
+  75% { transform: rotate(1.5deg); }
+  100% { transform: rotate(-1deg); }
+}
+
+.wiggle {
+  animation: wiggle 0.5s infinite;
+  transition: transform 0.2s;
+}
