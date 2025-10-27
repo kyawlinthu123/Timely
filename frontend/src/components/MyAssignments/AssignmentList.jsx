@@ -5,8 +5,6 @@ import { AssignmentsContext } from "../../contexts/AssignmentsContext";
 
 export default function AssignmentTable({ singleClassData }) {
 
-  // const {manageAssignment,setManageAssignment, showAddAssignmentForm, setShowAddAssignmentForm} = useContext(AssignmentsContext);
-
   const {myAssignments,manageAssignment,setManageAssignment,showAddAssignmentForm,setShowAddAssignmentForm} = useContext(AssignmentsContext)
 
    //  stop wiggle effect on cards when clicked outside any card on screen
@@ -28,7 +26,7 @@ export default function AssignmentTable({ singleClassData }) {
       <div className="p-2 m-4 mt-2 text-left">
         <p className="text-xl font-bold">
           {" "}
-          📚 {singleClassData.title} - Assignments{" "}
+          📚 {singleClassData.classTitle} - Assignments{" "}
         </p>
         <span className="mt-2 text-gray-600 font-sm text-md">
           {" "}

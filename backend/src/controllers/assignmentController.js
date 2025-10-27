@@ -3,7 +3,7 @@ import Assignment from "../models/Assignment.js";
 
 export async function getAssignments(req, res) {
   try {
-    const assignments = await Assignment.find();
+    const assignments = await Assignment.find();  
     res.status(200).json(assignments);
   } catch (error) {
     console.error("Internal Server Error", error);

@@ -7,6 +7,11 @@ export default function SingleClass({myClass}) {
 
   const {removeClass, isManaging} = useContext(ClassesContext);
 
+  const truncateText = (text, maxLength = 60) => {
+    if (!text) return "";
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  };
+
   return (
     <div
       className={`class-card relative max-w-sm p-6 bg-white border-2 text-black border-green-400 rounded-xl shadow-xl/30 transition-transform ${
@@ -14,11 +19,11 @@ export default function SingleClass({myClass}) {
       }`}
     >
       <div className="flex justify-between">
-        <h5 className="mb-2 text-2xl font-bold">📚 {myClass.title}</h5>
+        <h5 className="mb-2 text-2xl font-bold">📚 {myClass.classTitle}</h5>
         {isManaging && (
           <button 
           className="hover:bg-gray-200 rounded-2xl"
-          onClick={()=>removeClass(myClass.title)}
+          onClick={()=>removeClass(myClass._id)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -36,10 +41,10 @@ export default function SingleClass({myClass}) {
         )}
       </div>
       <span className="text-sm text-gray-500">by {myClass.instructor}</span>
-      <p className="mb-6 font-normal ">{myClass.description}</p>
+      <p className="mb-6 font-normal ">{truncateText(myClass.description, 70)}</p>
       <div className="flex gap-2 text-left">
         <Link
-          to={`/class-details/${myClass.title}`}
+          to={`/my-classes/${myClass.classTitle}`}
           state={myClass}
           className="px-4 py-2 font-semibold text-black bg-green-400 rounded-lg hover:bg-green-500"
         >

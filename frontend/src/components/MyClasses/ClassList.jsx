@@ -6,7 +6,7 @@ import SingleClassCard from "./SingleClassCard";
 import { ClassesContext } from "../../contexts/ClassesContext";
 
 export default function ClassList() {
-  const { myClasses, addNewClassFunction, showAddForm, setShowAddForm, isManaging, setIsManaging } = useContext(ClassesContext);
+  const { myClasses, showAddForm, setShowAddForm, isManaging, setIsManaging } = useContext(ClassesContext);
 
   //  stop wiggle effect on cards when clicked outside any card on screen
   useEffect(() => {
@@ -46,9 +46,9 @@ export default function ClassList() {
       {/* mapping myClasses and conditional rendering*/}
       {myClasses.length > 0 ? (
         <div className="grid grid-cols-3 gap-2 mt-6 ">
-          {myClasses.map((myClass, index) => (
+          {myClasses.map((myClass) => (
             <SingleClassCard
-              key={index}
+              key={myClass._id}
               myClass={myClass}
             />
           ))}

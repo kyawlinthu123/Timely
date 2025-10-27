@@ -16,7 +16,7 @@ export async function createClass (req,res) {
         const { classTitle, instructor, description  } = req.body;
         const newClass = new Class({classTitle,instructor,description});
         await newClass.save();
-        res.status(201).json({message : "Class created successfully"})
+        res.status(201).json(newClass)
     } catch (error) {
         console.error("failed creating a new class", error);
         res.status(500).json({message: "Internal Server Error"})
@@ -37,8 +37,7 @@ export async function updateClass (req,res) {
 
 export async function deleteClass (req,res) {
     try {
-        const {classTitle,instructor,description} = req.body;
-        await Class.findByIdAndDelete(req.params.id,{classTitle,instructor,description});
+        await Class.findByIdAndDelete(req.params.id);
         res.status(200).json({message: "Class deleted successfully"});
     } catch (error) {
         console.error("failed deleting class", error);

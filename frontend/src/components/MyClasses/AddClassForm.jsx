@@ -3,21 +3,25 @@ import { ClassesContext } from "../../contexts/ClassesContext";
 
 export default function AddClassForm({setShowAddForm}) {
 
-  const [title,setTitle] = useState("");
+  const [classTitle,setClassTitle] = useState("");
   const [instructor,setInstructor] = useState("");
   const [description,setDescription] = useState("")
   
   const {addNewClass} = useContext(ClassesContext);
 
-  const addNewClassHandler = (event) => {
+  const addNewClassHandler = async (event) => {
         event.preventDefault()
         const newClass = {
-            title,
+            classTitle,
             instructor,
             description
         }
-        addNewClass(newClass)
-        setShowAddForm(false);
+        try {
+          await addNewClass(newClass);
+          setShowAddForm(false);
+        } catch (error) {
+          console.error("Error creating new Class:", error)
+        }
     }
 
   return (
@@ -39,8 +43,8 @@ export default function AddClassForm({setShowAddForm}) {
           <input
             type="text"
             id="class-name"
-            value={title}
-            onChange={(event)=>setTitle(event.target.value)}
+            value={classTitle}
+            onChange={(event)=>setClassTitle(event.target.value)}
             className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none"
             required
           />

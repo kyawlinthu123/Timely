@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         element: <MyClassesContent/>
       },
       {
-        path: "/class-details/:title",
+        path: "/my-classes/:classTitle",
         element: <SingleClassDetails/>
       }
     ]
