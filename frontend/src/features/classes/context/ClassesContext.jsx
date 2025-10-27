@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import axios from "../../../api/axios";
+import axiosInstance from "../../../api/axiosInstance";
 
 export const ClassesContext = createContext();
 
@@ -12,7 +12,7 @@ export default function ClassesProvider({ children }) {
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        const response = await axios.get("/classes");
+        const response = await axiosInstance.get("/classes");
         console.log(response.data)
         setMyClasses(response.data);
       } catch (error) {
@@ -25,7 +25,7 @@ export default function ClassesProvider({ children }) {
   // create a class in db
   const addNewClass = async (addedClass) => {
     try {
-      const response = await axios.post("/classes", addedClass);
+      const response = await axiosInstance.post("/classes", addedClass);
       setMyClasses((prevClasses) => [...prevClasses, response.data]);
     } catch (error) {
       console.error("Error creating new class", error);
@@ -35,8 +35,8 @@ export default function ClassesProvider({ children }) {
   // remove a class from db
   const removeClass = async (classID) => {
     try {
-      const response = await axios.delete(`/classes/${classID}`);
-      console.log("deleted successfully", response);
+      const response = await axiosInstance.delete(`/classes/${classID}`);
+      console.log("deleted successfully", response.data.message);
       setMyClasses((prevClasses) =>
         prevClasses.filter((prevClass) => {
           return prevClass._id !== classID;

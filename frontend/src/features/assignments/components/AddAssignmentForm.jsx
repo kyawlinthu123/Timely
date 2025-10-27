@@ -1,91 +1,106 @@
-// src/components/Assignments/AddAssignmentForm.jsx
-import { useContext, useState, useEffect } from "react";
-import { ClassesContext } from "../../classes/context/ClassesContext";
+import { useContext, useState } from "react";
 import { AssignmentsContext } from "../context/AssignmentsContext";
 
-export default function AddAssignmentForm({singleClassData}) {
-
+export default function AddAssignmentForm({ singleClassData }) {
   const [assignmentTitle, setAssignmentTitle] = useState("");
-  const [priority,setPriority] = useState("medium")
-  const [deadline,setDeadline] = useState("");
+  const [priority, setPriority] = useState("medium");
+  const [deadline, setDeadline] = useState("");
+  const [status, setStatus] = useState("not started");
 
-  const {addNewAssignment, setShowAddAssignmentForm} = useContext(AssignmentsContext);
+  const { addNewAssignment, setShowAddAssignmentForm } = useContext(AssignmentsContext);
 
-  const addNewAssignmentHandler = (event) =>{
+  const addNewAssignmentHandler = (event) => {
     event.preventDefault();
-   try { const newAssignment = {
-      assignmentTitle,
-      classTitle : singleClassData.title,
-      priority,
-      deadline
-    }
-    addNewAssignment(newAssignment);
-    setShowAddAssignmentForm(false);}
-    catch(error) {
+    try {
+      const newAssignment = {
+        assignmentTitle,
+        classTitle: singleClassData.classTitle,
+        priority,
+        deadline,
+        status,
+        createdAt: new Date().toISOString()
+      };
+      addNewAssignment(newAssignment);
+      setShowAddAssignmentForm(false);
+    } catch (error) {
       console.error("Submit failed:", error);
     }
-  }
+  };
+
+  // Get min datetime (now)
+  const getMinDateTime = () => {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    return now.toISOString().slice(0, 16);
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <form 
-      className="w-full max-w-md p-6 space-y-5 text-black bg-white shadow-2xl rounded-2xl animate-scaleIn"
-      onSubmit={addNewAssignmentHandler}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+      <form
+        className="w-full max-w-md p-6 space-y-5 text-black bg-white shadow-xl rounded-xl animate-scaleIn"
+        onSubmit={addNewAssignmentHandler}
       >
-        <h2 className="pb-2 text-xl font-semibold text-center border-b text-shadow-lg">
-          🆕 Add new Assignment
-        </h2>
+        {/* Header */}
+        <div className="pb-4 border-b border-gray-200">
+          <h2 className="text-xl font-semibold text-gray-900">
+            Add New Assignment
+          </h2>
+          <p className="mt-1 text-sm text-gray-500">
+            Create a new assignment for {singleClassData.classTitle}
+          </p>
+        </div>
 
-        {/* Assignment Name */}
+        {/* Assignment Title */}
         <div>
           <label
             htmlFor="assignment-name"
-            className="block mb-2 text-sm font-medium text-gray-800"
+            className="block mb-2 text-sm font-medium text-gray-700"
           >
-            Assignment
+            Assignment Title
           </label>
           <input
             type="text"
             id="assignment-name"
             value={assignmentTitle}
-            onChange={(event)=>setAssignmentTitle(event.target.value)}
-            className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none"
+            onChange={(event) => setAssignmentTitle(event.target.value)}
+            placeholder="e.g., Essay Draft, Problem Set 3"
+            className="w-full px-3 py-2 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
             required
           />
         </div>
 
-        {/* Class Name */}
+        {/* Class Name (Read-only) */}
         <div>
           <label
             htmlFor="class-name"
-            className="block mb-2 text-sm font-medium text-gray-800"
+            className="block mb-2 text-sm font-medium text-gray-700"
           >
             Class
           </label>
           <input
             type="text"
             id="class-name"
-            className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none read-only:cursor-not-allowed"
-            value={singleClassData.title}
+            className="w-full px-3 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg cursor-not-allowed bg-gray-50"
+            value={singleClassData.classTitle}
             readOnly
           />
         </div>
 
-        {/* Priority + Deadline */}
-        <div className="flex space-x-4">
+        {/* Priority + Status */}
+        <div className="grid grid-cols-2 gap-4">
           {/* Priority */}
-          <div className="w-1/2">
+          <div>
             <label
               htmlFor="assignment-priority"
-              className="block mb-2 text-sm font-medium text-gray-800"
+              className="block mb-2 text-sm font-medium text-gray-700"
             >
               Priority
             </label>
             <select
               id="assignment-priority"
-              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none"
+              className="w-full px-3 py-2 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
               value={priority}
-              onChange={(event)=>setPriority(event.target.value)}
+              onChange={(event) => setPriority(event.target.value)}
             >
               <option value="low">Low</option>
               <option value="medium">Medium</option>
@@ -93,46 +108,62 @@ export default function AddAssignmentForm({singleClassData}) {
             </select>
           </div>
 
-          {/* Deadline */}
-          <div className="w-1/2">
+          {/* Status */}
+          <div>
             <label
-              htmlFor="assignment-deadline"
-              className="block mb-2 text-sm font-medium text-gray-800"
+              htmlFor="assignment-status"
+              className="block mb-2 text-sm font-medium text-gray-700"
             >
-              Deadline
+              Status
             </label>
-            <input
-              type="datetime-local"
-              id="assignment-deadline"
-              value={deadline}
-              onChange={(event)=> setDeadline(event.target.value)}
-              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none"
-            />
+            <select
+              id="assignment-status"
+              className="w-full px-3 py-2 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              value={status}
+              onChange={(event) => setStatus(event.target.value)}
+            >
+              <option value="not started">Not Started</option>
+              <option value="in progress">In Progress</option>
+              <option value="completed">Completed</option>
+            </select>
           </div>
         </div>
 
-        {/* Created At (hidden field, stored only)
-        <input
-          type="hidden"
-          id="assignment-created-at"
-          value={createdAt}
-          readOnly
-        /> */}
+        {/* Deadline */}
+        <div>
+          <label
+            htmlFor="assignment-deadline"
+            className="block mb-2 text-sm font-medium text-gray-700"
+          >
+            Deadline <span className="font-normal text-gray-400">(optional)</span>
+          </label>
+          <input
+            type="datetime-local"
+            id="assignment-deadline"
+            value={deadline}
+            onChange={(event) => setDeadline(event.target.value)}
+            min={getMinDateTime()}
+            className="w-full px-3 py-2 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+          />
+          <p className="mt-1 text-xs text-gray-500">
+            Leave empty if no specific deadline
+          </p>
+        </div>
 
         {/* Buttons */}
-        <div className="flex justify-end pt-2 space-x-3">
+        <div className="flex justify-end gap-2 pt-2">
           <button
             type="button"
             onClick={() => setShowAddAssignmentForm(false)}
-            className="px-4 py-2 font-medium bg-gray-200 rounded-lg hover:bg-gray-300"
+            className="px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 active:scale-95"
           >
-            Close
+            Cancel
           </button>
           <button
             type="submit"
-            className="px-4 py-2 font-semibold text-black bg-green-400 rounded-lg hover:bg-green-500"
+            className="px-4 py-2 text-sm font-medium text-white transition-colors duration-200 bg-green-500 rounded-lg hover:bg-green-600 active:scale-95"
           >
-            Add
+            Add Assignment
           </button>
         </div>
       </form>

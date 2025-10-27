@@ -1,36 +1,49 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "../../../styles/CardWiggleAnimation.css"
 import { ClassesContext } from "../context/ClassesContext";
 
-export default function SingleClass({myClass}) {
+export default function ClassCard({ myClass }) {
+  const { removeClass, isManaging } = useContext(ClassesContext);
 
-  const {removeClass, isManaging} = useContext(ClassesContext);
-
-  const truncateText = (text, maxLength = 60) => {
+  const truncateText = (text, maxLength = 45) => {
     if (!text) return "";
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
 
+  const handleDelete = () => {
+    if (window.confirm(`Delete "${myClass.classTitle}"?`)) {
+      removeClass(myClass._id);
+    }
+  };
+
+  // TODO: Calculate these from actual assignment data
+  const totalAssignments = 5;
+  const overdueCount = 1;
+  const upcomingCount = 2;
+
   return (
     <div
-      className={`class-card relative max-w-sm p-6 bg-white border-2 text-black border-green-400 rounded-xl shadow-xl/30 transition-transform ${
+      className={`class-card relative w-full max-w-sm p-5 bg-white border border-gray-200 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md hover:border-gray-300 ${
         isManaging ? "wiggle" : ""
       }`}
     >
-      <div className="flex justify-between">
-        <h5 className="mb-2 text-2xl font-bold">📚 {myClass.classTitle}</h5>
+      {/* Header with title and delete button */}
+      <div className="flex items-start justify-between gap-3 mb-1">
+        <h5 className="flex-1 text-lg font-semibold leading-tight text-gray-900 break-words">
+          {myClass.classTitle}
+        </h5>
         {isManaging && (
           <button 
-          aria-label="Delete class"
-          className="hover:bg-gray-200 rounded-2xl"
-          onClick={()=>removeClass(myClass._id)}
+            aria-label="Delete class"
+            className="flex-shrink-0 p-1 transition-colors duration-200 rounded-md hover:bg-red-50 group"
+            onClick={handleDelete}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="size-6"
+              className="w-4 h-4 text-gray-400 transition-colors duration-200 group-hover:text-red-500"
             >
               <path
                 fillRule="evenodd"
@@ -41,20 +54,55 @@ export default function SingleClass({myClass}) {
           </button>
         )}
       </div>
-      <span className="text-sm text-gray-500">by {myClass.instructor}</span>
-      <p className="mb-6 font-normal ">{truncateText(myClass.description, 70)}</p>
-      <div className="flex gap-2 text-left">
+
+      {/* Instructor */}
+      <p className="mb-3 text-xs font-medium text-gray-500">
+        {myClass.instructor}
+      </p>
+
+      {/* Description */}
+      <p className="mb-4 text-sm leading-relaxed text-gray-600">
+        {truncateText(myClass.description)}
+      </p>
+
+      {/* Assignment Stats */}
+      <div className="pb-4 mb-4 border-b border-gray-100">
+        {/* Counter badges */}
+        <div className="flex flex-wrap items-center gap-1.5 text-xs font-medium mb-2.5">
+          <span className="px-2 py-1 text-gray-700 border border-gray-200 rounded bg-gray-50">
+            {totalAssignments} tasks
+          </span>
+          {overdueCount > 0 && (
+            <span className="flex items-center gap-1 px-2 py-1 text-red-700 border border-red-200 rounded bg-red-50">
+              {overdueCount} overdue
+            </span>
+          )}
+          {upcomingCount > 0 && (
+            <span className="px-2 py-1 border rounded bg-amber-50 text-amber-700 border-amber-200">
+              {upcomingCount} upcoming
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Action buttons */}
+      <div className="flex gap-2">
         <Link
           to={`/my-classes/${myClass._id}`}
           state={myClass}
-          className="px-4 py-2 font-semibold text-black bg-green-400 rounded-lg hover:bg-green-500"
+          className="px-3.5 py-2 text-sm font-medium text-white bg-green-500 rounded-lg hover:bg-green-600 transition-colors duration-200 active:scale-95"
         >
-          View
+          View Class
         </Link>
-        {isManaging && 
-        <button className="px-4 py-2 font-semibold bg-gray-200 border-green-400 rounded-lg shadow hover:bg-gray-300">
-          Edit
-        </button>}
+        {isManaging && (
+          <Link
+            to={`/my-classes/${myClass._id}/edit`}
+            state={myClass}
+            className="px-3.5 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 active:scale-95"
+          >
+            Edit
+          </Link>
+        )}
       </div>
     </div>
   );
