@@ -22,6 +22,7 @@ export default function SingleClass({myClass}) {
         <h5 className="mb-2 text-2xl font-bold">📚 {myClass.classTitle}</h5>
         {isManaging && (
           <button 
+          aria-label="Delete class"
           className="hover:bg-gray-200 rounded-2xl"
           onClick={()=>removeClass(myClass._id)}
           >
@@ -44,7 +45,7 @@ export default function SingleClass({myClass}) {
       <p className="mb-6 font-normal ">{truncateText(myClass.description, 70)}</p>
       <div className="flex gap-2 text-left">
         <Link
-          to={`/my-classes/${myClass.classTitle}`}
+          to={`/my-classes/${myClass._id}`}
           state={myClass}
           className="px-4 py-2 font-semibold text-black bg-green-400 rounded-lg hover:bg-green-500"
         >
