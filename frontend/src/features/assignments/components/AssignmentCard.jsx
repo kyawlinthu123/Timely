@@ -1,6 +1,6 @@
 // src/components/AssignmentCard.jsx
-import React, { useContext } from "react";
-import { AssignmentsContext } from "../../contexts/AssignmentsContext";
+import { useContext } from "react";
+import { AssignmentsContext } from "../context/AssignmentsContext";
 
 export default function AssignmentCard({myAssignment}) {
 

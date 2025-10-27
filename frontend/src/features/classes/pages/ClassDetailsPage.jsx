@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation, useParams } from "react-router-dom";
-import AssignmentList from "../MyAssignments/AssignmentList";
+import AssignmentList from "../../assignments/components/AssignmentList";
 
 export default function SingleClassDetails() {
   const {title} = useParams();

@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { ClassesContext } from "../../contexts/ClassesContext";
+import { useContext, useState } from "react";
+import { ClassesContext } from "../context/ClassesContext";
 
 export default function AddClassForm({setShowAddForm}) {
 

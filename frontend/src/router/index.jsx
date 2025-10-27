@@ -1,8 +1,8 @@
 import {createBrowserRouter} from "react-router-dom";
 import App from "../App";
-import Dashboard from "../pages/Dashboard";
-import MyClassesContent from "../pages/MyClassesContent";
-import SingleClassDetails from "../components/MyClasses/SingleClassDetails";
+import DashboardPage from "../features/dashboard/pages/DashboardPage";
+import MyClassesContent from "../features/classes/pages/ClassesPage";
+import ClassDetailsPage from "../features/classes/pages/ClassDetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -11,15 +11,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Dashboard/>
+        element: <DashboardPage/>
       },
       {
         path: "/my-classes",
         element: <MyClassesContent/>
       },
       {
-        path: "/my-classes/:classTitle",
-        element: <SingleClassDetails/>
+        path: "/my-classes/:_id",
+        element: <ClassDetailsPage/>
       }
     ]
   },

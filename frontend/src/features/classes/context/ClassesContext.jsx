@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import API from "../api/Api";
+import API from "../../../api/Api";
 
 export const ClassesContext = createContext();
 
@@ -12,7 +12,7 @@ export default function ClassesProvider({ children }) {
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        const response = await API.get("/classes")
+        const response = await API.get("/classes");
         setMyClasses(response.data);
       } catch (error) {
         console.error("Error fetching classes", error);
@@ -22,31 +22,29 @@ export default function ClassesProvider({ children }) {
   }, []);
 
   // create a class in db
-    const addNewClass = async (addedClass) => {
-      try {
-        const response = await API.post("/classes", addedClass)
-        setMyClasses((prev)=> [...prev, response.data]);
-      } catch (error) {
-        console.error("Error creating new class", error)
-      }
+  const addNewClass = async (addedClass) => {
+    try {
+      const response = await API.post("/classes", addedClass);
+      setMyClasses((prev) => [...prev, response.data]);
+    } catch (error) {
+      console.error("Error creating new class", error);
     }
+  };
 
-    // todo remove a class in db, update an existing class in db
-
-    const removeClass = async (classID) => {
-      try {
-        const response = await API.delete(`/classes/${classID}`)
-        console.log("deleted successfully", response)
-        setMyClasses((prevClasses)=> prevClasses.filter(prevClass =>{
-          return prevClass._id !== classID
-        }))
-      } catch (error) {
-        console.log("Error deleting class")
-      }
+  // remove a class from db
+  const removeClass = async (classID) => {
+    try {
+      const response = await API.delete(`/classes/${classID}`);
+      console.log("deleted successfully", response);
+      setMyClasses((prevClasses) =>
+        prevClasses.filter((prevClass) => {
+          return prevClass._id !== classID;
+        })
+      );
+    } catch (error) {
+      console.log("Error deleting class");
     }
-
-
-
+  };
 
   return (
     <ClassesContext.Provider

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import DemoProfile from '../images/Demo_Profile.jpeg'
+import DemoProfile from '../../assets/images/DemoProfile.jpeg'
 
 export default function NavigationBar() {
   return (

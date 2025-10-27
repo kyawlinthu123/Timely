@@ -1,7 +1,7 @@
 // src/components/Assignments/AddAssignmentForm.jsx
-import React, { useContext, useState, useEffect } from "react";
-import { ClassesContext } from "../../contexts/ClassesContext";
-import { AssignmentsContext } from "../../contexts/AssignmentsContext";
+import { useContext, useState, useEffect } from "react";
+import { ClassesContext } from "../../classes/context/ClassesContext";
+import { AssignmentsContext } from "../context/AssignmentsContext";
 
 export default function AddAssignmentForm({singleClassData}) {
 
@@ -10,13 +10,6 @@ export default function AddAssignmentForm({singleClassData}) {
   const [deadline,setDeadline] = useState("");
 
   const {addNewAssignment, setShowAddAssignmentForm} = useContext(AssignmentsContext);
-
-  //  for created date and time feature
-  // const [createdAt, setCreatedAt] = useState("");
-  // useEffect(() => {
-  //   const now = new Date();
-  //   setCreatedAt(now.toISOString());
-  // }, []);
 
   const addNewAssignmentHandler = (event) =>{
     event.preventDefault();

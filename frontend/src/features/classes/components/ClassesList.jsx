@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import AddClassForm from "./AddClassForm";
-import SingleClassCard from "./SingleClassCard";
-import { ClassesContext } from "../../contexts/ClassesContext";
+import ClassCard from './ClassCard'
+import { ClassesContext } from "../context/ClassesContext";
 
-export default function ClassList() {
+export default function ClassesList() {
   const { myClasses, showAddForm, setShowAddForm, isManaging, setIsManaging } = useContext(ClassesContext);
 
   //  stop wiggle effect on cards when clicked outside any card on screen
@@ -47,7 +46,7 @@ export default function ClassList() {
       {myClasses.length > 0 ? (
         <div className="grid grid-cols-3 gap-2 mt-6 ">
           {myClasses.map((myClass) => (
-            <SingleClassCard
+            <ClassCard
               key={myClass._id}
               myClass={myClass}
             />

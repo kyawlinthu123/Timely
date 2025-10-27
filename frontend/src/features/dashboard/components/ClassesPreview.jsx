@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { ClassesContext } from "../../contexts/ClassesContext";
+import { ClassesContext } from "../../classes/context/ClassesContext";
 
 export default function MyClasses() {
   const { myClasses } = useContext(ClassesContext);

@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import AssignmentCard from "./AssignmentCard";
 import AddAssignmentForm from "./AddAssignmentForm";
-import { AssignmentsContext } from "../../contexts/AssignmentsContext";
+import { AssignmentsContext } from "../context/AssignmentsContext";
 
 export default function AssignmentTable({ singleClassData }) {
 

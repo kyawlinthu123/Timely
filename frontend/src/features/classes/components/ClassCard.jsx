@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import "./CardWiggleAnimation.css"
-import { ClassesContext } from "../../contexts/ClassesContext";
+import "../../../styles/CardWiggleAnimation.css"
+import { ClassesContext } from "../context/ClassesContext";
 
 export default function SingleClass({myClass}) {
 
