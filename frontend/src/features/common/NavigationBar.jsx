@@ -29,7 +29,7 @@ export default function NavigationBar() {
         {/* Navigation Links - Optional for future */}
         <div className="items-center hidden gap-6 md:flex">
           <Link 
-            to="/my-classes" 
+            to="/my_classes" 
             className="text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-gray-900"
           >
             Classes

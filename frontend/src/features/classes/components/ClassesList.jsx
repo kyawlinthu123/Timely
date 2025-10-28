@@ -60,7 +60,7 @@ export default function ClassesList() {
       )}
 
       {/* Add class form modal */}
-      {showAddForm && <AddClassForm setShowAddForm={setShowAddForm} />}
+      {showAddForm && <AddClassForm/>}
     </div>
   );
 }

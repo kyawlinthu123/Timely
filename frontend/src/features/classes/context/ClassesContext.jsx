@@ -32,6 +32,19 @@ export default function ClassesProvider({ children }) {
     }
   };
 
+  // update a class in db
+  // classID is the id of the class we wanna update. the logic will be if the id of updating class equals to the id of one of the prev classes then
+  const updateClass = async (classID, updatedClass) => {
+    try {
+      const response = await axiosInstance.put(`/classes/${classID}`, updatedClass);
+      setMyClasses((prevClasses) => prevClasses.map((prevClass)=> {
+        return prevClass._id === classID ? updatedClass : prevClass
+      }))
+    } catch (error) {
+      console.error("Error updating class", error)
+    }
+  }
+
   // remove a class from db
   const removeClass = async (classID) => {
     try {
@@ -53,6 +66,7 @@ export default function ClassesProvider({ children }) {
         myClasses,
         setMyClasses,
         addNewClass,
+        updateClass,
         removeClass,
         showAddForm,
         setShowAddForm,

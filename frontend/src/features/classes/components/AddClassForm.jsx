@@ -1,11 +1,12 @@
 import { useContext, useState } from "react";
 import { ClassesContext } from "../context/ClassesContext";
+import toast from "react-hot-toast";
 
-export default function AddClassForm({ setShowAddForm }) {
+export default function AddClassForm() {
   const [classTitle, setClassTitle] = useState("");
   const [instructor, setInstructor] = useState("");
   const [description, setDescription] = useState("");
-  const { addNewClass } = useContext(ClassesContext);
+  const { addNewClass, setShowAddForm } = useContext(ClassesContext);
 
   const addNewClassHandler = async (event) => {
     event.preventDefault();
@@ -16,6 +17,7 @@ export default function AddClassForm({ setShowAddForm }) {
     };
     try {
       await addNewClass(newClass);
+      toast.success("Class created successfully!")
       setShowAddForm(false);
     } catch (error) {
       console.error("Error creating new Class:", error);

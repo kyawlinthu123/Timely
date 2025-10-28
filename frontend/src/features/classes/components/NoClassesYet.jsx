@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ClassesContext } from "../context/ClassesContext";
 
 export default function NoClassesYet() {
+  const {setShowAddForm} = useContext(ClassesContext);
   return (
     <div className="flex flex-col items-center justify-center px-4 py-16">
       <svg

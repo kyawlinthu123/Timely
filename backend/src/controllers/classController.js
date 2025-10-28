@@ -31,7 +31,7 @@ export async function updateClass (req,res) {
         res.status(200).json({message: "Class updated successfully"});
     } catch (error) {
         console.error("Failed updating the class")
-        res.status(500).json({message : "Internal Server Error"})
+        res.status(500).json({error: error.message})
     }
 }
 

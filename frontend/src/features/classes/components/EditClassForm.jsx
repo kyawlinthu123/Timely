@@ -1,94 +1,125 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
+import { ClassesContext } from "../context/ClassesContext";
+import toast from "react-hot-toast";
 
-export default function EditClassForm({setShowAddForm}) {
+export default function EditClassForm({myClass,setShowEditForm}) {
+  const [classTitle, setClassTitle] = useState("");
+  const [instructor, setInstructor] = useState("");
+  const [description, setDescription] = useState("");
+  
+  const { updateClass } = useContext(ClassesContext);
 
-  const [classTitle,setClassTitle] = useState("");
-  const [instructor,setInstructor] = useState("");
-  const [description,setDescription] = useState("")
-
-  const addNewClassHandler = async (event) => {
-        event.preventDefault()
-        const newClass = {
-            classTitle,
-            instructor,
-            description
-        }
-        try {
-          await addNewClass(newClass);
-          setShowAddForm(false);
-        } catch (error) {
-          console.error("Error creating new Class:", error)
-        }
+  // Populate form with existing class data
+  useEffect(() => {
+    if (myClass) {
+      setClassTitle(myClass.classTitle || "");
+      setInstructor(myClass.instructor || "");
+      setDescription(myClass.description || "");
     }
+  }, [myClass]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const updatedClass = {
+      ...myClass,
+      classTitle,
+      instructor,
+      description
+    };
+    try {
+      await updateClass(myClass._id, updatedClass);
+      toast.success("Class updated successfully!")
+      setShowEditForm(false);
+    } catch (error) {
+      console.error("Error updating class:", error);
+    }
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <form 
-      className="w-full max-w-md p-6 space-y-5 text-black bg-white shadow-2xl rounded-2xl animate-scaleIn"
-      onSubmit={addNewClassHandler}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" key={myClass._id}>
+      <form
+        className="w-full max-w-md p-6 space-y-5 text-black bg-white shadow-xl rounded-xl"
+        onSubmit={handleSubmit}
       >
-        <h2 className="pb-2 text-xl font-semibold text-center border-b text-shadow-lg">
-          🆕 Add a new Class
-        </h2>
+        {/* Header */}
+        <div className="pb-4 border-b border-gray-200">
+          <h2 className="text-xl font-semibold text-gray-900">
+            Edit Class
+          </h2>
+          <p className="mt-1 text-sm text-gray-500">
+            Update the details for your class
+          </p>
+        </div>
+
+        {/* Class Title */}
         <div>
           <label
             htmlFor="class-name"
-            className="block mb-2 text-sm font-medium text-gray-800"
+            className="block mb-2 text-sm font-medium text-gray-700"
           >
-            Class
+            Class Name
           </label>
           <input
             type="text"
             id="class-name"
             value={classTitle}
-            onChange={(event)=>setClassTitle(event.target.value)}
-            className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none"
+            onChange={(event) => setClassTitle(event.target.value)}
+            placeholder="e.g., Biology 101"
+            className="w-full px-3 py-2 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
             required
           />
         </div>
+
+        {/* Instructor */}
         <div>
           <label
             htmlFor="instructor"
-            className="block mb-2 text-sm font-medium text-gray-800"
+            className="block mb-2 text-sm font-medium text-gray-700"
           >
-            Instructor (optional)
+            Instructor <span className="font-normal text-gray-400">(optional)</span>
           </label>
           <input
             type="text"
             id="instructor"
             value={instructor}
-            onChange={(event)=>setInstructor(event.target.value)}
-            className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none"
+            onChange={(event) => setInstructor(event.target.value)}
+            placeholder="e.g., Dr. Smith"
+            className="w-full px-3 py-2 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
           />
         </div>
+
+        {/* Description */}
         <div>
           <label
             htmlFor="description"
-            className="block mb-2 text-sm font-medium text-gray-800"
+            className="block mb-2 text-sm font-medium text-gray-700"
           >
-            Description
+            Description <span className="font-normal text-gray-400">(optional)</span>
           </label>
           <textarea
             id="description"
             rows="3"
             value={description}
-            onChange={(event)=>setDescription(event.target.value)}
-            className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-400 focus:border-green-400 outline-none resize-none"
+            onChange={(event) => setDescription(event.target.value)}
+            placeholder="Add notes or details about this class..."
+            className="w-full px-3 py-2 text-sm transition-all border border-gray-300 rounded-lg outline-none resize-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
           ></textarea>
         </div>
-        <div className="flex justify-end pt-2 space-x-3">
+
+        {/* Action Buttons */}
+        <div className="flex justify-end gap-2 pt-2">
           <button
             type="button"
-            onClick={() => setShowAddForm(false)}
-            className="px-4 py-2 font-medium bg-gray-200 rounded-lg hover:bg-gray-300"
+            onClick={() => setShowEditForm(false)}
+            className="px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 active:scale-95"
           >
-            Close
+            Cancel
           </button>
           <button
             type="submit"
-            className="px-4 py-2 font-semibold text-black bg-green-400 rounded-lg hover:bg-green-500"
+            className="px-4 py-2 text-sm font-medium text-white transition-colors duration-200 bg-green-500 rounded-lg hover:bg-green-600 active:scale-95"
           >
-            Add
+            Save Changes
           </button>
         </div>
       </form>

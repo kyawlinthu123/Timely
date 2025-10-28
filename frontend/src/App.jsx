@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import "./App.css";
 import NavigationBar from "./features/common/NavigationBar";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
+import { Toaster } from "react-hot-toast";
 import { useRef } from "react";
 
 function App() {
@@ -18,6 +19,15 @@ function App() {
           </div>
         </CSSTransition>
       </SwitchTransition>
+      <Toaster 
+        position="top-right" 
+        toastOptions={{
+          duration: 3000,
+          style: {
+            fontSize: '14px',
+          },
+        }}
+      />
     </div>
   );
 }

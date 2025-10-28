@@ -31,10 +31,10 @@ export default function MyClasses() {
             {randomThreeClasses.map((myClass) => (
               <li
                 key={myClass._id}
-                className="p-3 transition-all duration-200 border border-gray-200 rounded-lg bg-gray-50 hover:bg-gray-100 hover:border-gray-300"
+                className="p-3 transition-all duration-200 border border-green-400 rounded-lg bg-gray-50 hover:bg-gray-100 hover:border-green-500"
               >
                 <Link
-                  to={`/my-classes/${myClass._id}`}
+                  to={`/my_classes/${myClass._id}`}
                   state={myClass}
                   className="block"
                 >
@@ -58,7 +58,7 @@ export default function MyClasses() {
 
       {/* View All Button */}
       {myClasses.length > 0 && (
-        <Link to="/my-classes" className="w-full">
+        <Link to="/my_classes" className="w-full">
           <button className="w-full py-2 text-sm font-medium text-gray-700 transition-all duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 active:scale-95">
             View All Classes
           </button>

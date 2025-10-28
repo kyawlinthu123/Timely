@@ -14,11 +14,11 @@ const router = createBrowserRouter([
         element: <DashboardPage/>
       },
       {
-        path: "/my-classes",
+        path: "/my_classes",
         element: <MyClassesContent/>
       },
       {
-        path: "/my-classes/:_id",
+        path: "/my_classes/:_id",
         element: <ClassDetailsPage/>
       }
     ]
