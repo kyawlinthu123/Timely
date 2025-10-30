@@ -1,18 +1,14 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import "../../../styles/CardWiggleAnimation.css";
 import { ClassesContext } from "../context/ClassesContext";
 import EditClassForm from "./EditClassForm";
 import toast from "react-hot-toast";
+import truncateText from "../../../utils/truncateText";
 
 export default function ClassCard({ myClass }) {
   const { removeClass, isManaging} = useContext(ClassesContext);
    const [showEditForm, setShowEditForm] = useState(false);
-
-  const truncateText = (text, maxLength = 45) => {
-    if (!text) return "";
-    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-  };
+   const MAX_DESCRIPTION_LENGTH = 45;
 
   const handleDelete = () => {
     if (window.confirm(`Delete "${myClass.classTitle}"?`)) {
@@ -43,7 +39,7 @@ export default function ClassCard({ myClass }) {
 
       {/* Description */}
       <p className="mb-4 text-sm leading-relaxed text-gray-600">
-        {truncateText(myClass.description)}
+        {truncateText(myClass.description, MAX_DESCRIPTION_LENGTH)}
       </p>
 
       {/* Assignment Stats */}

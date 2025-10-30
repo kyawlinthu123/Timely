@@ -5,21 +5,7 @@ import { ClassesContext } from "../context/ClassesContext";
 import NoClassesYet from "./NoClassesYet";
 
 export default function ClassesList() {
-  const { myClasses, showAddForm, setShowAddForm, isManaging, setIsManaging } = useContext(ClassesContext);
-
-  // Stop wiggle effect on cards when clicked outside any card on screen
-  useEffect(() => {
-    if (!isManaging) return;
-
-    const handleClickOutside = (e) => {
-      if (!e.target.closest(".class-card") && !e.target.closest("button")) {
-        setIsManaging(false);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, [isManaging, setIsManaging]);
+  const { myClasses, showAddForm, setShowAddForm, isManaging, setIsManaging } = useContext(ClassesContext); 
 
   return (
     <div className="w-full px-4 py-6 mx-auto max-w-7xl sm:px-6">
