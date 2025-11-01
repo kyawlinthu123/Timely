@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
 import { AssignmentsContext } from "../context/AssignmentsContext";
+import toast from "react-hot-toast";
 
 export default function AddAssignmentForm({ singleClassData }) {
   const [assignmentTitle, setAssignmentTitle] = useState("");
   const [priority, setPriority] = useState("medium");
-  const [deadline, setDeadline] = useState("");
+  const [dueDate, setDueDate] = useState("");
   const [status, setStatus] = useState("not started");
 
   const { addNewAssignment, setShowAddAssignmentForm } = useContext(AssignmentsContext);
@@ -14,13 +15,14 @@ export default function AddAssignmentForm({ singleClassData }) {
     try {
       const newAssignment = {
         assignmentTitle,
-        classTitle: singleClassData.classTitle,
+        classTitle: singleClassData._id,
         priority,
-        deadline,
+        dueDate,
         status,
         createdAt: new Date().toISOString()
       };
       addNewAssignment(newAssignment);
+      toast.success("New assignment created successfully!")
       setShowAddAssignmentForm(false);
     } catch (error) {
       console.error("Submit failed:", error);
@@ -101,6 +103,7 @@ export default function AddAssignmentForm({ singleClassData }) {
               className="w-full px-3 py-2 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
               value={priority}
               onChange={(event) => setPriority(event.target.value)}
+              required
             >
               <option value="low">Low</option>
               <option value="medium">Medium</option>
@@ -129,24 +132,24 @@ export default function AddAssignmentForm({ singleClassData }) {
           </div>
         </div>
 
-        {/* Deadline */}
+        {/* Due Date */}
         <div>
           <label
-            htmlFor="assignment-deadline"
+            htmlFor="assignment-due-date"
             className="block mb-2 text-sm font-medium text-gray-700"
           >
-            Deadline <span className="font-normal text-gray-400">(optional)</span>
+            Due Date <span className="font-normal text-gray-400">(optional)</span>
           </label>
           <input
             type="datetime-local"
-            id="assignment-deadline"
-            value={deadline}
-            onChange={(event) => setDeadline(event.target.value)}
+            id="assignment-due-date"
+            value={dueDate}
+            onChange={(event) => setDueDate(event.target.value)}
             min={getMinDateTime()}
             className="w-full px-3 py-2 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
           />
           <p className="mt-1 text-xs text-gray-500">
-            Leave empty if no specific deadline
+            Leave empty if no specific due date
           </p>
         </div>
 

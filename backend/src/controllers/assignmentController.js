@@ -3,24 +3,28 @@ import Assignment from "../models/Assignment.js";
 
 export async function getAssignments(req, res) {
   try {
-    const assignments = await Assignment.find();  
-    res.status(200).json(assignments);
+    const {classId} = req.query
+    const filter = classId ? {classTitle: classId} : {};
+    const assignments = await Assignment.find(filter)
+    res.status(200).json(assignments)
   } catch (error) {
-    console.error("Internal Server Error", error);
+    console.error("Error fetching assignments", error.message)
+    res.status(500).json({message: "Internal Server Error"})
   }
 }
 
 export async function createAssignment(req, res) {
   try {
-    const { assignmentTitle, classTitle, priority, dueDate } = req.body;
+    const { assignmentTitle, classTitle, priority, status, dueDate } = req.body;
     const newAssignment = new Assignment({
       assignmentTitle,
       classTitle,
       priority,
-      dueDate,
+      status,
+      dueDate
     });
     await newAssignment.save();
-    res.status(201).json({ message: "Assignment Created Successfully" });
+    res.status(201).json(newAssignment);
   } catch (error) {
     console.error("failed creating new assignment", error.message);
     res.status(500).json({ message: "Internal Server Error" });
@@ -29,14 +33,14 @@ export async function createAssignment(req, res) {
 
 export async function updateAssignment(req, res) {
   try {
-    const { assignmentTitle, classTitle, priority, dueDate } = req.body;
+    const { assignmentTitle, classTitle, priority, status, dueDate } = req.body;
     const updatedAssignment = await Assignment.findByIdAndUpdate(
       req.params.id,
-      { assignmentTitle, classTitle, priority, dueDate },
+      { assignmentTitle, classTitle, priority, status, dueDate },
       { new: true }
     );
     if (!updatedAssignment)
-      return res.status(401).json({ message: "Assignment not found" });
+      return res.status(401).json({ message: "Assignment not found" }); 
     res.status(201).json({ message: "Assignment updated successfully" });
   } catch (error) {
     console.error("Failed updating the assignment");
@@ -46,7 +50,6 @@ export async function updateAssignment(req, res) {
 
 export async function deleteAssignment(req, res) {
   try {
-    const { assignmentTitle, classTitle, priority, dueDate } = req.body;
     await Assignment.findByIdAndDelete(req.params.id,);
     res.status(200).json({ message: "Assignment deleted successfully" });
   } catch (error) {

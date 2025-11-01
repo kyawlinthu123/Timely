@@ -1,28 +1,61 @@
 import { createContext, useEffect, useState } from "react";
+import axiosInstance from "../../../api/axiosInstance";
 
 export const AssignmentsContext = createContext();
 
-export default function AssignmentsProvider({children}){
-    const [myAssignments, setMyAssignments] = useState([]);
-    const [showAddAssignmentForm, setShowAddAssignmentForm] = useState(false);
-    const [manageAssignment,setManageAssignment] = useState(false);
+export default function AssignmentsProvider({ children }) {
+  const [myAssignments, setMyAssignments] = useState([]);
+  const [showAddAssignmentForm, setShowAddAssignmentForm] = useState(false);
+  const [manageAssignment, setManageAssignment] = useState(false);
 
-    useEffect(()=>{
-    const storedAssignments = localStorage.getItem("myAssignments");
-    if (storedAssignments){
-        setMyAssignments(JSON.parse(storedAssignments));
+  const addNewAssignment = async (addedAssignment) => {
+    try {
+      const response = await axiosInstance.post(
+        "/assignments",
+        addedAssignment
+      );
+      const createdAssignment = response.data;
+      setMyAssignments((prevAssignments) => [
+        ...prevAssignments,
+        createdAssignment,
+      ]);
+    } catch (error) {
+      console.error(
+        "This is a message written in react part to let me know i cannot add new assignment to mongoDB"
+      );
     }
-    },[])
+  };
 
-const addNewAssignment = (addedAssignment) => {
-    const updatedAssignments = [...myAssignments, addedAssignment];
-    setMyAssignments(updatedAssignments);
-    localStorage.setItem("myAssignments", JSON.stringify(updatedAssignments));
-}
+  const removeAssignment = async (assignmentID) => {
+    try {
+      const response = await axiosInstance.delete(
+        `/assignments/${assignmentID}`
+      );
+      console.log("deleted successfully", response.data.message);
+      setMyAssignments((prevAssignments) =>
+        prevAssignments.filter(
+          (prevAssignment) => prevAssignment._id !== assignmentID
+        )
+      );
+    } catch (error) {
+      console.error("Error deleting class");
+    }
+  };
 
-return (
-    <AssignmentsContext.Provider value={{myAssignments,setMyAssignments,addNewAssignment, manageAssignment, setManageAssignment, showAddAssignmentForm, setShowAddAssignmentForm}}>
-        {children}
+  return (
+    <AssignmentsContext.Provider
+      value={{
+        myAssignments,
+        setMyAssignments,
+        addNewAssignment,
+        removeAssignment,
+        manageAssignment,
+        setManageAssignment,
+        showAddAssignmentForm,
+        setShowAddAssignmentForm,
+      }}
+    >
+      {children}
     </AssignmentsContext.Provider>
-)
+  );
 }

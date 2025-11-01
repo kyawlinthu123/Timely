@@ -3,21 +3,43 @@ import { useParams, useLocation } from "react-router-dom";
 import AssignmentCard from "./AssignmentCard";
 import AddAssignmentForm from "./AddAssignmentForm";
 import { AssignmentsContext } from "../context/AssignmentsContext";
+import axiosInstance from "../../../api/axiosInstance";
+import { LoadingSkeleton } from "../../common/Loading";
 
-export default function ClassDashboard() {
-  const { classId } = useParams();
+export default function AssignmentList() {
   const location = useLocation();
   const singleClassData = location.state; // Class data passed from navigation
+  const [activeTab, setActiveTab] = useState("all"); // all, active, completed, overdue
+  const [loading,setLoading] = useState(false);
 
   const {
     myAssignments,
+    setMyAssignments,
     manageAssignment,
     setManageAssignment,
     showAddAssignmentForm,
     setShowAddAssignmentForm,
   } = useContext(AssignmentsContext);
 
-  const [activeTab, setActiveTab] = useState("all"); // all, active, completed, overdue
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      try {
+        setLoading(true)
+        const response = await axiosInstance.get(
+          `/assignments?classId=${singleClassData._id}`
+        );
+        setMyAssignments(response.data);
+      } catch (error) {
+        console.log("Failed to fetch class assignments:", error.message);
+      }
+      finally {
+        setLoading(false);
+      }
+    };
+    if (singleClassData?._id){
+      fetchAssignments();
+    }
+  }, [singleClassData,setMyAssignments]);
 
   // TODO: Replace with actual data from context
   const totalAssignments = myAssignments.length;
@@ -49,6 +71,14 @@ export default function ClassDashboard() {
   };
 
   const filteredAssignments = getFilteredAssignments();
+
+   if (loading) {
+    return (
+      <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6">
+        <LoadingSkeleton />
+      </div>
+    );
+  }
 
   return (
     <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6">
@@ -239,9 +269,9 @@ export default function ClassDashboard() {
         <div className="p-6">
           {filteredAssignments.length > 0 ? (
             <div className="space-y-3">
-              {filteredAssignments.map((myAssignment, index) => (
+              {filteredAssignments.map((myAssignment) => (
                 <AssignmentCard
-                  key={myAssignment._id || index}
+                  key={myAssignment._id}
                   myAssignment={myAssignment}
                 />
               ))}

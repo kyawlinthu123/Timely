@@ -1,11 +1,21 @@
-import { useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 import AddClassForm from "./AddClassForm";
-import ClassCard from './ClassCard';
+import ClassCard from "./ClassCard";
 import { ClassesContext } from "../context/ClassesContext";
 import NoClassesYet from "./NoClassesYet";
 
 export default function ClassesList() {
-  const { myClasses, showAddForm, setShowAddForm, isManaging, setIsManaging } = useContext(ClassesContext); 
+  const { myClasses, showAddForm, setShowAddForm, isManaging, setIsManaging } =
+    useContext(ClassesContext);
+  const [loading, setLoading] = useState(false);
+
+  if (loading) {
+    return (
+      <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6">
+        <LoadingSkeleton />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full px-4 py-6 mx-auto max-w-7xl sm:px-6">
@@ -16,7 +26,7 @@ export default function ClassesList() {
             Click on a class to view assignments, notes, and stats
           </p>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <button
             className="px-4 py-2 text-sm font-medium text-white transition-colors duration-200 bg-green-500 rounded-lg hover:bg-green-600 active:scale-95"
@@ -35,18 +45,15 @@ export default function ClassesList() {
       {myClasses.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {myClasses.map((myClass) => (
-            <ClassCard
-              key={myClass._id}
-              myClass={myClass}
-            />
+            <ClassCard key={myClass._id} myClass={myClass} />
           ))}
         </div>
       ) : (
-        <NoClassesYet/>
+        <NoClassesYet />
       )}
 
       {/* Add class form modal */}
-      {showAddForm && <AddClassForm/>}
+      {showAddForm && <AddClassForm />}
     </div>
   );
 }

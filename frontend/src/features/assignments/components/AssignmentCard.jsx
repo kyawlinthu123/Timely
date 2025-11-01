@@ -2,16 +2,24 @@ import { useContext } from "react";
 import { AssignmentsContext } from "../context/AssignmentsContext";
 import { getPriorityColor, getStatusColor } from "../utils/colorUtils";
 import { formatDate } from "../utils/dateUtils";
+import toast from "react-hot-toast";
 
 export default function AssignmentCard({ myAssignment }) {
-  const { manageAssignment } = useContext(AssignmentsContext);
+  const { manageAssignment,removeAssignment } = useContext(AssignmentsContext);
 
   const handleFocusMode = () => {
     // TODO: Implement Pomodoro focus mode
     console.log('Starting focus mode for:', myAssignment.assignmentTitle);
   };
 
-  return (
+  const handleDelete = () => {
+    if (window.confirm(`Delete "${myAssignment.assignmentTitle}"?`)){
+      removeAssignment(myAssignment._id);
+      toast.success("Assignment deleted successfully")
+    }
+  }
+
+  return ( 
     <div className="flex flex-col justify-between w-full p-4 transition-all duration-200 bg-white border border-gray-200 rounded-lg sm:flex-row sm:items-center hover:border-gray-300 hover:shadow-sm">
       {/* Left Section - Assignment Info */}
       <div className="flex-1 mb-3 sm:mb-0">
@@ -95,7 +103,10 @@ export default function AssignmentCard({ myAssignment }) {
           </button>
 
           {/* Delete Button */}
-          <button className="px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors duration-200 active:scale-95">
+          <button 
+          className="px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors duration-200 active:scale-95"
+          onClick={handleDelete}
+          >
             Delete
           </button>
         </div>

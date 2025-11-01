@@ -17,7 +17,7 @@ export default function AddClassForm() {
     };
     try {
       await addNewClass(newClass);
-      toast.success("Class created successfully!")
+      toast.success("New class created successfully!")
       setShowAddForm(false);
     } catch (error) {
       console.error("Error creating new Class:", error);
