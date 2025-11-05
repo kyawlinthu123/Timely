@@ -13,7 +13,7 @@ const assignmentSchema = new mongoose.Schema(
     },
     priority: {
       type: String,
-      enum: ["low", "medium", "high"],
+      enum: ["Low", "Medium", "High"],
       required: true,
     },
     dueDate: {
@@ -21,7 +21,7 @@ const assignmentSchema = new mongoose.Schema(
     },
     status : {
       type : String,
-      enum : ["not started","in progress","completed"],
+      enum : ["Not started","In progress","Completed"],
       required: true,
     }
   },

@@ -2,11 +2,11 @@ import { useContext, useState } from "react";
 import { AssignmentsContext } from "../context/AssignmentsContext";
 import toast from "react-hot-toast";
 
-export default function AddAssignmentForm({ singleClassData }) {
+export default function AddAssignmentForm({ classData }) {
   const [assignmentTitle, setAssignmentTitle] = useState("");
-  const [priority, setPriority] = useState("medium");
+  const [priority, setPriority] = useState("Medium");
   const [dueDate, setDueDate] = useState("");
-  const [status, setStatus] = useState("not started");
+  const [status, setStatus] = useState("Not started");
 
   const { addNewAssignment, setShowAddAssignmentForm } = useContext(AssignmentsContext);
 
@@ -15,7 +15,7 @@ export default function AddAssignmentForm({ singleClassData }) {
     try {
       const newAssignment = {
         assignmentTitle,
-        classTitle: singleClassData._id,
+        classTitle: classData._id,
         priority,
         dueDate,
         status,
@@ -48,7 +48,7 @@ export default function AddAssignmentForm({ singleClassData }) {
             Add New Assignment
           </h2>
           <p className="mt-1 text-sm text-gray-500">
-            Create a new assignment for {singleClassData.classTitle}
+            Create a new assignment for {classData.classTitle}
           </p>
         </div>
 
@@ -83,7 +83,7 @@ export default function AddAssignmentForm({ singleClassData }) {
             type="text"
             id="class-name"
             className="w-full px-3 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg cursor-not-allowed bg-gray-50"
-            value={singleClassData.classTitle}
+            value={classData.classTitle}
             readOnly
           />
         </div>
@@ -105,9 +105,9 @@ export default function AddAssignmentForm({ singleClassData }) {
               onChange={(event) => setPriority(event.target.value)}
               required
             >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
             </select>
           </div>
 
@@ -125,9 +125,9 @@ export default function AddAssignmentForm({ singleClassData }) {
               value={status}
               onChange={(event) => setStatus(event.target.value)}
             >
-              <option value="not started">Not Started</option>
-              <option value="in progress">In Progress</option>
-              <option value="completed">Completed</option>
+              <option value="Not started">Not started</option>
+              <option value="In progress">In progress</option>
+              <option value="Completed">Completed</option>
             </select>
           </div>
         </div>

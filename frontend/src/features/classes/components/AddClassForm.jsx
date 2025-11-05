@@ -6,6 +6,7 @@ export default function AddClassForm() {
   const [classTitle, setClassTitle] = useState("");
   const [instructor, setInstructor] = useState("");
   const [description, setDescription] = useState("");
+  
   const { addNewClass, setShowAddForm } = useContext(ClassesContext);
 
   const addNewClassHandler = async (event) => {

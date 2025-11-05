@@ -1,25 +1,31 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AssignmentsContext } from "../context/AssignmentsContext";
 import { getPriorityColor, getStatusColor } from "../utils/colorUtils";
 import { formatDate } from "../utils/dateUtils";
 import toast from "react-hot-toast";
 
 export default function AssignmentCard({ myAssignment }) {
-  const { manageAssignment,removeAssignment } = useContext(AssignmentsContext);
+  const { manageAssignment, removeAssignment } = useContext(AssignmentsContext);
+
+  // these are for updating priority through a dropdown options in assignment card
+  const [priorityDropdown, setPriorityDropdown] = useState(false);
+  const priorityOptions = ["Low", "Medium", "High"];
+  //  these are for updating status through a dropdown options in assignment card
+  const [statusDropdown, setStatusDropdown] = useState(false);
+  const statusOptions = ["Not Started", "In progress", "Completed"];
 
   const handleFocusMode = () => {
-    // TODO: Implement Pomodoro focus mode
-    console.log('Starting focus mode for:', myAssignment.assignmentTitle);
+    console.log("Starting focus mode for:", myAssignment.assignmentTitle);
   };
 
   const handleDelete = () => {
-    if (window.confirm(`Delete "${myAssignment.assignmentTitle}"?`)){
+    if (window.confirm(`Delete "${myAssignment.assignmentTitle}"?`)) {
       removeAssignment(myAssignment._id);
-      toast.success("Assignment deleted successfully")
+      toast.success("Assignment deleted successfully");
     }
-  }
+  };
 
-  return ( 
+  return (
     <div className="flex flex-col justify-between w-full p-4 transition-all duration-200 bg-white border border-gray-200 rounded-lg sm:flex-row sm:items-center hover:border-gray-300 hover:shadow-sm">
       {/* Left Section - Assignment Info */}
       <div className="flex-1 mb-3 sm:mb-0">
@@ -43,13 +49,43 @@ export default function AssignmentCard({ myAssignment }) {
         </div>
       </div>
 
-      {/* Right Section - Badges & Actions */}
+      {/* Badges & Actions */}
       {!manageAssignment ? (
         <div className="flex flex-wrap items-center gap-2">
           {/* Priority Badge */}
-          <span className={`px-2.5 py-1 text-xs font-medium rounded border ${getPriorityColor(myAssignment.priority)}`}>
-            {myAssignment.priority || 'Medium'}
-          </span>
+          <div className="relative">
+            <span
+              className={`px-2.5 py-1 text-xs font-medium rounded border cursor-pointer ${getPriorityColor(
+                myAssignment.priority
+              )}`}
+              onClick={() => {
+                setPriorityDropdown((prev) => !prev);
+                setStatusDropdown(false);
+              }}
+            >
+              {myAssignment.priority || "Medium"}
+            </span>
+
+            {priorityDropdown && (
+              <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[120px] overflow-hidden">
+                <div className="flex flex-col gap-1 px-1 py-0.5 m-2 text-xs">
+                  {priorityOptions.map((priorityOption, index) => (
+                    <button
+                      key={priorityOption || index}
+                      className={`px-1 py-0.5 text-xs font-medium rounded border cursor-pointer ${getPriorityColor(
+                        priorityOption
+                      )}`}
+                      onClick={() => {
+                        setPriorityDropdown(false);
+                      }}
+                    >
+                      {priorityOption}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Deadline Badge */}
           <span className="px-2.5 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded border border-gray-200 flex items-center gap-1">
@@ -61,16 +97,45 @@ export default function AssignmentCard({ myAssignment }) {
             >
               <path d="M5.75 3a.75.75 0 0 0-.75.75v.5a.75.75 0 0 0 1.5 0v-.5A.75.75 0 0 0 5.75 3ZM10.25 3a.75.75 0 0 0-.75.75v.5a.75.75 0 0 0 1.5 0v-.5a.75.75 0 0 0-.75-.75ZM3.5 6A1.5 1.5 0 0 0 2 7.5v5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 12.5 6h-9Z" />
             </svg>
-            {formatDate(myAssignment.deadline) || 'No deadline'}
+            {formatDate(myAssignment.deadline) || "No deadline"}
           </span>
 
           {/* Status Badge */}
-          <span className={`px-2.5 py-1 text-xs font-medium rounded border ${getStatusColor(myAssignment.status || 'In Progress')}`}>
-            {myAssignment.status || 'In Progress'}
-          </span>
+          <div className="relative">
+            <span
+              className={`px-2.5 py-1 text-xs font-medium rounded border cursor-pointer ${getStatusColor(
+                myAssignment.status
+              )}`}
+              onClick={() => {
+                setStatusDropdown((prev) => !prev);
+                setPriorityDropdown(false);
+              }}
+            >
+              {myAssignment.status}
+            </span>
+            {statusDropdown && (
+              <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[120px] overflow-hidden">
+                <div className="flex flex-col gap-1 px-1 py-0.5 m-2 text-xs">
+                  {statusOptions.map((statusOption, index) => (
+                    <button
+                      key={statusOption || index}
+                      className={`px-1 py-0.5 text-xs font-medium rounded border cursor-pointer ${getStatusColor(
+                        statusOption
+                      )}`}
+                      onClick={() => {
+                        setStatusDropdown(false);
+                      }}
+                    >
+                      {statusOption}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Focus Mode Button */}
-          <button 
+          <button
             onClick={handleFocusMode}
             className="px-3 py-1.5 text-xs font-medium text-white bg-purple-500 rounded-lg hover:bg-purple-600 transition-colors duration-200 active:scale-95 flex items-center gap-1"
           >
@@ -101,11 +166,10 @@ export default function AssignmentCard({ myAssignment }) {
           <button className="px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 active:scale-95">
             Edit
           </button>
-
           {/* Delete Button */}
-          <button 
-          className="px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors duration-200 active:scale-95"
-          onClick={handleDelete}
+          <button
+            className="px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors duration-200 active:scale-95"
+            onClick={handleDelete}
           >
             Delete
           </button>

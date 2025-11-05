@@ -5,10 +5,11 @@ import AddAssignmentForm from "./AddAssignmentForm";
 import { AssignmentsContext } from "../context/AssignmentsContext";
 import axiosInstance from "../../../api/axiosInstance";
 import { LoadingSkeleton } from "../../common/Loading";
+import AssignmentStats from "./AssignmentStats";
 
 export default function AssignmentList() {
   const location = useLocation();
-  const singleClassData = location.state; // Class data passed from navigation
+  const classData = location.state; // Class data passed from navigation
   const [activeTab, setActiveTab] = useState("all"); // all, active, completed, overdue
   const [loading,setLoading] = useState(false);
 
@@ -26,7 +27,7 @@ export default function AssignmentList() {
       try {
         setLoading(true)
         const response = await axiosInstance.get(
-          `/assignments?classId=${singleClassData._id}`
+          `/assignments?classId=${classData._id}`
         );
         setMyAssignments(response.data);
       } catch (error) {
@@ -36,34 +37,34 @@ export default function AssignmentList() {
         setLoading(false);
       }
     };
-    if (singleClassData?._id){
+    if (classData?._id){
       fetchAssignments();
     }
-  }, [singleClassData,setMyAssignments]);
+  }, [classData,setMyAssignments]);
 
-  // TODO: Replace with actual data from context
+  // These variables are used for displaying assignment stats related to each class
   const totalAssignments = myAssignments.length;
   const completedAssignments = myAssignments.filter(
-    (a) => a.status === "completed"
+    (myAssignment) => myAssignment.status === "Completed"
   ).length;
   const activeAssignments = myAssignments.filter(
-    (a) => a.status !== "completed"
+    (myAssignment) => myAssignment.status === "In progress"
   ).length;
-  const overdueAssignments = myAssignments.filter((a) => {
-    return new Date(a.deadline) < new Date() && a.status !== "completed";
+  const overdueAssignments = myAssignments.filter((myAssignment) => {
+    return new Date(myAssignment.deadline) < new Date() && myAssignment.status !== "Completed";
   }).length;
   const totalStudyTime = 0; // TODO: Calculate from focus sessions
 
-  // Filter assignments based on active tab
+  // This function is used for filtering assignments based on the status of active tab
   const getFilteredAssignments = () => {
     switch (activeTab) {
       case "active":
-        return myAssignments.filter((a) => a.status !== "completed");
+        return myAssignments.filter((myAssignment) => myAssignment.status === "In progress");
       case "completed":
-        return myAssignments.filter((a) => a.status === "completed");
+        return myAssignments.filter((myAssignment) => myAssignment.status === "Completed");
       case "overdue":
         return myAssignments.filter(
-          (a) => new Date(a.deadline) < new Date() && a.status !== "completed"
+          (myAssignment) => new Date(myAssignment.deadline) < new Date() && myAssignment.status !== "Completed"
         );
       default:
         return myAssignments;
@@ -72,6 +73,7 @@ export default function AssignmentList() {
 
   const filteredAssignments = getFilteredAssignments();
 
+  // skeleton loader
    if (loading) {
     return (
       <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6">
@@ -87,110 +89,31 @@ export default function AssignmentList() {
         <div className="flex items-start justify-between mb-4">
           <div>
             <h1 className="mb-2 text-3xl font-bold text-gray-900">
-              {singleClassData?.classTitle || "Class Name"}
+              {classData?.classTitle || "Class Name"}
             </h1>
             <p className="text-sm text-gray-600">
-              {singleClassData?.instructor || "Instructor Name"}
+              {classData?.instructor || "Instructor Name"}
             </p>
           </div>
         </div>
 
         {/* Description */}
-        {singleClassData?.description && (
+        {classData?.description && (
           <p className="mb-4 text-sm text-gray-600">
-            {singleClassData.description}
+            {classData.description}
           </p>
         )}
 
         {/* Quick Stats Cards */}
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {/* Total Assignments */}
-          <div className="p-3 border border-gray-200 rounded-lg bg-gray-50">
-            <div className="flex items-center gap-2 mb-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                className="w-4 h-4 text-gray-600"
-              >
-                <path d="M2.5 3.5A1.5 1.5 0 0 1 4 2h2.879a1.5 1.5 0 0 1 1.06.44l1.122 1.12A1.5 1.5 0 0 0 10.121 4H12a1.5 1.5 0 0 1 1.5 1.5v1.75a.75.75 0 0 1-1.5 0V5.5a.5.5 0 0 0-.5-.5H4a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-1.75a.75.75 0 0 1 1.5 0V12.5A1.5 1.5 0 0 1 12 14H4a1.5 1.5 0 0 1-1.5-1.5v-9Z" />
-              </svg>
-              <span className="text-xs font-medium text-gray-600">Total</span>
-            </div>
-            <p className="text-2xl font-bold text-gray-900">
-              {totalAssignments}
-            </p>
-          </div>
-
-          {/* Active Assignments */}
-          <div className="p-3 border border-gray-200 rounded-lg bg-gray-50">
-            <div className="flex items-center gap-2 mb-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                className="w-4 h-4 text-blue-600"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="text-xs font-medium text-gray-600">Active</span>
-            </div>
-            <p className="text-2xl font-bold text-gray-900">
-              {activeAssignments}
-            </p>
-          </div>
-
-          {/* Completed */}
-          <div className="p-3 border border-gray-200 rounded-lg bg-gray-50">
-            <div className="flex items-center gap-2 mb-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                className="w-4 h-4 text-green-600"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="text-xs font-medium text-gray-600">Done</span>
-            </div>
-            <p className="text-2xl font-bold text-gray-900">
-              {completedAssignments}
-            </p>
-          </div>
-
-          {/* Study Time */}
-          <div className="p-3 border border-gray-200 rounded-lg bg-gray-50">
-            <div className="flex items-center gap-2 mb-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                className="w-4 h-4 text-purple-600"
-              >
-                <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
-                <path
-                  fillRule="evenodd"
-                  d="M1.38 8.28a.87.87 0 0 1 0-.566 7.003 7.003 0 0 1 13.238.006.87.87 0 0 1 0 .566A7.003 7.003 0 0 1 1.379 8.28ZM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="text-xs font-medium text-gray-600">
-                Study Time
-              </span>
-            </div>
-            <p className="text-2xl font-bold text-gray-900">
-              {totalStudyTime}h
-            </p>
-          </div>
-        </div>
+        <AssignmentStats
+        stats={{
+          totalAssignments,
+          completedAssignments,
+          activeAssignments,
+          overdueAssignments,
+          totalStudyTime
+        }}
+        />
       </div>
 
       {/* Assignment Panel */}
@@ -250,7 +173,6 @@ export default function AssignmentList() {
             >
               Completed ({completedAssignments})
             </button>
-            {overdueAssignments > 0 && (
               <button
                 onClick={() => setActiveTab("overdue")}
                 className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${
@@ -261,7 +183,6 @@ export default function AssignmentList() {
               >
                 Overdue ({overdueAssignments})
               </button>
-            )}
           </div>
         </div>
 
@@ -315,7 +236,7 @@ export default function AssignmentList() {
 
       {/* Add Assignment Form Modal */}
       {showAddAssignmentForm && (
-        <AddAssignmentForm singleClassData={singleClassData} />
+        <AddAssignmentForm classData={classData} />
       )}
     </div>
   );

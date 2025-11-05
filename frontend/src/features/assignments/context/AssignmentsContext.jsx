@@ -38,7 +38,24 @@ export default function AssignmentsProvider({ children }) {
         )
       );
     } catch (error) {
-      console.error("Error deleting class");
+      console.error("Error deleting assignment");
+    }
+  };
+
+  const updateAssignment = async (updatedAssignmentId, updatedFields) => {
+    try {
+      const response = await axiosInstance.put(
+        `/assignments/${updatedAssignmentId}`,
+        updatedFields
+      );
+      const updatedAssignment = response.data;
+      setMyAssignments((prevAssignments) => (prevAssignment) => {
+        return prevAssignment._id === updatedAssignmentId
+          ? updatedAssignment
+          : prevAssignment;
+      });
+    } catch (error) {
+      console.error("Error updating assignment");
     }
   };
 
@@ -49,6 +66,7 @@ export default function AssignmentsProvider({ children }) {
         setMyAssignments,
         addNewAssignment,
         removeAssignment,
+        updateAssignment,
         manageAssignment,
         setManageAssignment,
         showAddAssignmentForm,
