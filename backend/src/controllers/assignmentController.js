@@ -41,7 +41,7 @@ export async function updateAssignment(req, res) {
     );
     if (!updatedAssignment)
       return res.status(401).json({ message: "Assignment not found" }); 
-    res.status(201).json({ message: "Assignment updated successfully" });
+    res.status(200).json(updatedAssignment);
   } catch (error) {
     console.error("Failed updating the assignment");
     res.status(500).json({ message: "Internal Server Error" });

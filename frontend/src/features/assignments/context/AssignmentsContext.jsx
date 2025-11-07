@@ -49,15 +49,37 @@ export default function AssignmentsProvider({ children }) {
         updatedFields
       );
       const updatedAssignment = response.data;
-      setMyAssignments((prevAssignments) => (prevAssignment) => {
-        return prevAssignment._id === updatedAssignmentId
-          ? updatedAssignment
-          : prevAssignment;
-      });
+
+      setMyAssignments((prevAssignments) =>
+        prevAssignments.map((assignment) =>
+          assignment._id === updatedAssignmentId
+            ? updatedAssignment : assignment
+        )
+      );
+      return updatedAssignment;
     } catch (error) {
-      console.error("Error updating assignment");
+      console.error("Error updating assignment", error);
     }
   };
+
+  // const updateAssignment = async (updatedAssignmentId, updatedFields) => {
+  //   try {
+  //     const response = await axiosInstance.put(
+  //       `/assignments/${updatedAssignmentId}`,
+  //       updatedFields
+  //     );
+  //     const updatedAssignment = response.data;
+  //     setMyAssignments((prevAssignments) =>
+  //       prevAssignments.map((assignment) =>
+  //         assignment._id === updatedAssignmentId
+  //           ? { ...updateAssignment, ...updatedFields }
+  //           : assignment
+  //       )
+  //     );
+  //   } catch (error) {
+  //     console.error("Error updating assignment");
+  //   }
+  // };
 
   return (
     <AssignmentsContext.Provider

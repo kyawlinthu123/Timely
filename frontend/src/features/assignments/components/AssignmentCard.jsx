@@ -5,14 +5,15 @@ import { formatDate } from "../utils/dateUtils";
 import toast from "react-hot-toast";
 
 export default function AssignmentCard({ myAssignment }) {
-  const { manageAssignment, removeAssignment } = useContext(AssignmentsContext);
+  const { manageAssignment, removeAssignment, updateAssignment } =
+    useContext(AssignmentsContext);
 
   // these are for updating priority through a dropdown options in assignment card
   const [priorityDropdown, setPriorityDropdown] = useState(false);
   const priorityOptions = ["Low", "Medium", "High"];
   //  these are for updating status through a dropdown options in assignment card
   const [statusDropdown, setStatusDropdown] = useState(false);
-  const statusOptions = ["Not Started", "In progress", "Completed"];
+  const statusOptions = ["Not started", "In progress", "Completed"];
 
   const handleFocusMode = () => {
     console.log("Starting focus mode for:", myAssignment.assignmentTitle);
@@ -75,8 +76,18 @@ export default function AssignmentCard({ myAssignment }) {
                       className={`px-1 py-0.5 text-xs font-medium rounded border cursor-pointer ${getPriorityColor(
                         priorityOption
                       )}`}
-                      onClick={() => {
-                        setPriorityDropdown(false);
+                      onClick={async () => {
+                          try {
+                            await updateAssignment(myAssignment._id, {
+                              priority: priorityOption,
+                            });
+                            setPriorityDropdown(false);
+                            toast.success(
+                              `${myAssignment.assignmentTitle} priority updated`
+                            );
+                          } catch (error) {
+                            toast.error("Unable to update priority");
+                          }
                       }}
                     >
                       {priorityOption}
@@ -97,7 +108,7 @@ export default function AssignmentCard({ myAssignment }) {
             >
               <path d="M5.75 3a.75.75 0 0 0-.75.75v.5a.75.75 0 0 0 1.5 0v-.5A.75.75 0 0 0 5.75 3ZM10.25 3a.75.75 0 0 0-.75.75v.5a.75.75 0 0 0 1.5 0v-.5a.75.75 0 0 0-.75-.75ZM3.5 6A1.5 1.5 0 0 0 2 7.5v5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 12.5 6h-9Z" />
             </svg>
-            {formatDate(myAssignment.deadline) || "No deadline"}
+            {formatDate(myAssignment.dueDate) || "No deadline"}
           </span>
 
           {/* Status Badge */}
@@ -122,8 +133,17 @@ export default function AssignmentCard({ myAssignment }) {
                       className={`px-1 py-0.5 text-xs font-medium rounded border cursor-pointer ${getStatusColor(
                         statusOption
                       )}`}
-                      onClick={() => {
-                        setStatusDropdown(false);
+                      onClick={async () => {
+                        try {
+                          // await the context update; AssignmentsContext now returns merged result
+                          await updateAssignment(myAssignment._id, {
+                            status: statusOption,
+                          });
+                          setStatusDropdown(false);
+                          toast.success("Status updated");
+                        } catch (err) {
+                          toast.error("Unable to update status");
+                        }
                       }}
                     >
                       {statusOption}
