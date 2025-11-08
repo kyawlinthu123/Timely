@@ -1,3 +1,4 @@
+// different loading animations generated using claudeAI
 import React from "react";
 
 export default function Loading({ size = "medium", fullScreen = false }) {
