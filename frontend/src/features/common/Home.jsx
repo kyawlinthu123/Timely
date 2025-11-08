@@ -13,8 +13,8 @@ export default function TimelyLanding() {
     },
     {
       icon: <Timer className="w-6 h-6" />,
-      title: "Focus Mode + Pomodoro",
-      description: "Built-in focus timer for each assignment. Track exactly how much time you spend studying with Pomodoro technique."
+      title: "Focus Mode with Pomodoro",
+      description: "Built-in focus timer for each assignment. Track exactly how much time you spend studying on each assignment using Pomodoro technique."
     },
     {
       icon: <BarChart3 className="w-6 h-6" />,
@@ -203,7 +203,7 @@ export default function TimelyLanding() {
             Join students who are taking control of their assignments.
           </p>
           <button className="inline-flex items-center gap-2 px-8 py-4 text-lg font-medium text-white transition bg-green-500 rounded-lg hover:bg-green-600">
-            <Link to="/sign_in">Start Using Timely For Free</Link>
+            <Link to="/sign_in">Start Using Timely Free</Link>
             <ArrowRight className="w-5 h-5" />
           </button>
           <p className="mt-4 text-sm text-gray-600">No credit card required. Free forever.</p>
