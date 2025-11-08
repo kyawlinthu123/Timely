@@ -48,7 +48,7 @@ export default function AssignmentList() {
     (myAssignment) => myAssignment.status === "Completed"
   ).length;
   const activeAssignments = myAssignments.filter(
-    (myAssignment) => myAssignment.status === "In progress"
+    (myAssignment) => myAssignment.status === "In Progress"
   ).length;
   const overdueAssignments = myAssignments.filter((myAssignment) => {
     return new Date(myAssignment.deadline) < new Date() && myAssignment.status !== "Completed";
@@ -59,7 +59,7 @@ export default function AssignmentList() {
   const getFilteredAssignments = () => {
     switch (activeTab) {
       case "active":
-        return myAssignments.filter((myAssignment) => myAssignment.status === "In progress");
+        return myAssignments.filter((myAssignment) => myAssignment.status === "In Progress");
       case "completed":
         return myAssignments.filter((myAssignment) => myAssignment.status === "Completed");
       case "overdue":
@@ -133,7 +133,7 @@ export default function AssignmentList() {
                 onClick={() => setManageAssignment((prev) => !prev)}
                 className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 active:scale-95"
               >
-                {manageAssignment ? "Done" : "Manage"}
+                {manageAssignment ? "Done" : "Manage Assignments"}
               </button>
               <button className="px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 active:scale-95">
                 ⏱ Start Focus

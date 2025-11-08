@@ -21,7 +21,7 @@ const assignmentSchema = new mongoose.Schema(
     },
     status : {
       type : String,
-      enum : ["Not started","In progress","Completed"],
+      enum : ["Not Started","In Progress","Completed"],
       required: true,
     }
   },

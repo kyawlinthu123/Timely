@@ -6,7 +6,7 @@ export default function AddAssignmentForm({ classData }) {
   const [assignmentTitle, setAssignmentTitle] = useState("");
   const [priority, setPriority] = useState("Medium");
   const [dueDate, setDueDate] = useState("");
-  const [status, setStatus] = useState("Not started");
+  const [status, setStatus] = useState("Not Started");
 
   const { addNewAssignment, setShowAddAssignmentForm } = useContext(AssignmentsContext);
 
@@ -125,8 +125,8 @@ export default function AddAssignmentForm({ classData }) {
               value={status}
               onChange={(event) => setStatus(event.target.value)}
             >
-              <option value="Not started">Not started</option>
-              <option value="In progress">In progress</option>
+              <option value="Not Started">Not Started</option>
+              <option value="In Progress">In Progress</option>
               <option value="Completed">Completed</option>
             </select>
           </div>
