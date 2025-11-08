@@ -3,9 +3,30 @@ import React from "react";
 export default function UpcomingDeadlines() {
   // TODO: Replace with actual data from context/API
   const deadlines = [
-    { id: 1, title: "Essay Draft", due: "Oct 12", dueTime: "11:59 PM", course: "English 101", priority: "high" },
-    { id: 2, title: "Lab Report", due: "Oct 15", dueTime: "3:00 PM", course: "Computer Science", priority: "medium" },
-    { id: 3, title: "Math Homework", due: "Oct 18", dueTime: "9:00 AM", course: "Mathematics", priority: "low" },
+    {
+      id: 1,
+      title: "Essay Draft",
+      due: "Oct 12",
+      dueTime: "11:59 PM",
+      course: "English 101",
+      priority: "high",
+    },
+    {
+      id: 2,
+      title: "Lab Report",
+      due: "Oct 15",
+      dueTime: "3:00 PM",
+      course: "Computer Science",
+      priority: "medium",
+    },
+    {
+      id: 3,
+      title: "Math Homework",
+      due: "Oct 18",
+      dueTime: "9:00 AM",
+      course: "Mathematics",
+      priority: "low",
+    },
   ];
 
   const getPriorityStyles = (priority) => {
@@ -24,11 +45,23 @@ export default function UpcomingDeadlines() {
   const getPriorityBadge = (priority) => {
     switch (priority) {
       case "high":
-        return <span className="px-2 py-0.5 text-xs font-medium text-red-700 bg-red-100 rounded border border-red-200">High</span>;
+        return (
+          <span className="px-2 py-0.5 text-xs font-medium text-red-700 bg-red-100 rounded border border-red-200">
+            High
+          </span>
+        );
       case "medium":
-        return <span className="px-2 py-0.5 text-xs font-medium text-amber-700 bg-amber-100 rounded border border-amber-200">Medium</span>;
+        return (
+          <span className="px-2 py-0.5 text-xs font-medium text-amber-700 bg-amber-100 rounded border border-amber-200">
+            Medium
+          </span>
+        );
       case "low":
-        return <span className="px-2 py-0.5 text-xs font-medium text-blue-700 bg-blue-100 rounded border border-blue-200">Low</span>;
+        return (
+          <span className="px-2 py-0.5 text-xs font-medium text-blue-700 bg-blue-100 rounded border border-blue-200">
+            Low
+          </span>
+        );
       default:
         return null;
     }
@@ -42,7 +75,8 @@ export default function UpcomingDeadlines() {
           Upcoming Deadlines
         </h2>
         <p className="mt-1 text-xs text-gray-500">
-          {deadlines.length} assignment{deadlines.length !== 1 ? "s" : ""} due soon
+          {deadlines.length} assignment{deadlines.length !== 1 ? "s" : ""} due
+          soon
         </p>
       </div>
 
@@ -53,7 +87,9 @@ export default function UpcomingDeadlines() {
             {deadlines.map((deadline) => (
               <li
                 key={deadline.id}
-                className={`p-3 border rounded-lg transition-all duration-200 cursor-pointer ${getPriorityStyles(deadline.priority)}`}
+                className={`p-3 border rounded-lg transition-all duration-200 cursor-pointer ${getPriorityStyles(
+                  deadline.priority
+                )}`}
               >
                 <div className="flex items-start justify-between gap-2 mb-1">
                   <p className="flex-1 text-sm font-semibold leading-tight text-gray-900">
@@ -75,7 +111,9 @@ export default function UpcomingDeadlines() {
                       clipRule="evenodd"
                     />
                   </svg>
-                  <span>Due {deadline.due} at {deadline.dueTime}</span>
+                  <span>
+                    Due {deadline.due} at {deadline.dueTime}
+                  </span>
                 </div>
               </li>
             ))}
@@ -101,10 +139,21 @@ export default function UpcomingDeadlines() {
         )}
       </div>
 
-      {/* View All Button */}
-      <button className="w-full py-2 text-sm font-medium text-gray-700 transition-all duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 active:scale-95">
-        View All Assignments
-      </button>
+      <button className="flex items-center justify-center w-full gap-2 py-2.5 text-sm font-medium text-gray-700 transition-all duration-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 hover:shadow-sm active:scale-[0.98]">
+            <span>Calendar View</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                fillRule="evenodd"
+                d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
     </div>
   );
 }
