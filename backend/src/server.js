@@ -12,7 +12,10 @@ const PORT = process.env.PORT || 5001
 connectDB();
 
 // middleware
-app.use(cors());
+app.use(cors({
+  origin: ["https://timely-dusky.vercel.app/"], // change this to your actual frontend URL
+  credentials: true,
+}));
 app.use(express.json());
 
 app.use('/classes',classRoutes);
