@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
+  "type": "module",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js"
   },
   "keywords": [],
-  "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -24,3 +24,4 @@
     "passport-local": "^1.0.0"
   }
 }
+
