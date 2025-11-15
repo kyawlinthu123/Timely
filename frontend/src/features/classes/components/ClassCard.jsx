@@ -4,16 +4,18 @@ import { ClassesContext } from "../context/ClassesContext";
 import EditClassForm from "./EditClassForm";
 import toast from "react-hot-toast";
 import truncateText from "../../../utils/truncateText";
+import { AssignmentsContext } from "../../assignments/context/AssignmentsContext";
 
 export default function ClassCard({ myClass }) {
   const { removeClass, isManaging} = useContext(ClassesContext);
+  const {myAssignments} = useContext(AssignmentsContext);
    const [showEditForm, setShowEditForm] = useState(false);
    const MAX_DESCRIPTION_LENGTH = 45;
 
   const handleDelete = () => {
     if (window.confirm(`Delete "${myClass.classTitle}"?`)) {
       removeClass(myClass._id);
-      toast.success("Class deleted successfully!")
+      toast.success(`"${myClass.classTitle}" has been deleted.`)
     }
   };
 
@@ -21,10 +23,16 @@ export default function ClassCard({ myClass }) {
     setShowEditForm(true);
   };
 
-  // TODO: Calculate these from actual assignment data
-  const totalAssignments = 5;
-  const overdueCount = 1;
-  const upcomingCount = 2;
+  const totalAssignments = myAssignments.length
+  const overdueCount = myAssignments.filter(
+    (myAssignment) => (
+      new Date(myAssignment.dueDate) < new Date() &&
+      myAssignment.status !== "Completed"
+    )
+  ).length;
+  const upcomingCount = myAssignments.filter(
+    (myAssignment) => myAssignment.status === "Not Started"
+  ).length;
 
   return (
     <div className="relative w-full max-w-sm p-5 transition-all duration-200 bg-white border border-gray-200 shadow-sm class-card rounded-xl hover:shadow-md hover:border-gray-300">
@@ -41,13 +49,12 @@ export default function ClassCard({ myClass }) {
       <p className="mb-4 text-sm leading-relaxed text-gray-600">
         {truncateText(myClass.description, MAX_DESCRIPTION_LENGTH)}
       </p>
-
       {/* Assignment Stats */}
       <div className="pb-4 mb-4 border-b border-gray-100">
         {/* Counter badges */}
         <div className="flex flex-wrap items-center gap-1.5 text-xs font-medium mb-2.5">
           <span className="px-2 py-1 text-gray-700 border border-gray-200 rounded bg-gray-50">
-            {totalAssignments} assignments
+            {totalAssignments} assignment{myAssignments.length > 1 ? "s" : "" }
           </span>
           {overdueCount > 0 && (
             <span className="flex items-center gap-1 px-2 py-1 text-red-700 border border-red-200 rounded bg-red-50">

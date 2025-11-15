@@ -1,12 +1,14 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ClassesContext } from "../../classes/context/ClassesContext";
 import NoClassesYet from "../../classes/components/NoClassesYet";
 import truncateText from "../../../utils/truncateText";
+import Loading from "../../common/Loading";
 
 export default function MyClasses() {
   const { myClasses } = useContext(ClassesContext);
   const DESCRIPTION_MAX_LENGTH = 85;
+  const [loading,setLoading] = useState(false);
   
   // Memoize random selection to prevent re-shuffling on every render
   const displayClasses = useMemo(() => {
@@ -14,6 +16,12 @@ export default function MyClasses() {
       .sort(() => 0.5 - Math.random())
       .slice(0, 3);
   }, [myClasses]);
+
+  if (loading) {
+    return (
+      <Loading/>
+    )
+  }
 
   return (
     <div className="flex flex-col w-full h-full p-5 bg-white border border-gray-200 shadow-sm rounded-xl">

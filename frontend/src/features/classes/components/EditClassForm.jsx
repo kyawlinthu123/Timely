@@ -28,7 +28,7 @@ export default function EditClassForm({myClass,setShowEditForm}) {
     };
     try {
       await updateClass(myClass._id, updatedClass);
-      toast.success("Class updated successfully!")
+      toast.success(`"${myClass.classTitle}" has been updated.`)
       setShowEditForm(false);
     } catch (error) {
       console.error("Error updating class:", error);

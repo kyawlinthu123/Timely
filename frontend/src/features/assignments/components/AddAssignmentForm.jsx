@@ -22,10 +22,10 @@ export default function AddAssignmentForm({ classData }) {
         createdAt: new Date().toISOString()
       };
       addNewAssignment(newAssignment);
-      toast.success("New assignment created successfully!")
+      toast.success(`"${newAssignment.assignmentTitle}" has been created.`)
       setShowAddAssignmentForm(false);
     } catch (error) {
-      console.error("Submit failed:", error);
+      toast.error("Unable to create assignment.")
     }
   };
 

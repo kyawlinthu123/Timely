@@ -11,13 +11,16 @@ const PORT = process.env.PORT || 5001
 
 connectDB();
 
-// middleware
+// middlewareS
 app.use(cors());
 app.use(express.json());
 
 app.use('/classes',classRoutes);
 app.use('/assignments',assignmentRoutes);
 
-app.listen(PORT, ()=> {
+app.listen(PORT, ()=> { 
     console.log(`Server started on port: ${PORT}`)
 })
+// app.listen creates an HTTP server using Node's built-in http module
+// begins listening for incoming requests on port 5001
+// when it runs, Node opens a TCP port and starts waiting for clients (like browsers, Postman, frontend apps) to make requests.
