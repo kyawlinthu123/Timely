@@ -46,22 +46,22 @@ export default function AssignmentCard({ myAssignment }) {
   const handleDelete = () => {
     if (window.confirm(`Delete "${myAssignment.assignmentTitle}"?`)) {
       removeAssignment(myAssignment._id);
-      toast.success("Assignment deleted successfully");
+      toast.success(`"${myAssignment.assignmentTitle}" has been deleted.`);
     }
   };
 
   const handleUpdateAssignmentTitle = async (event) => {
     event.preventDefault();
     if (!assignmentTitle.trim()) {
-      toast.error("Assignment Title cannot remain empty");
+      toast.error("Assignment Title cannot be empty");
       return;
     }
     try {
       await updateAssignment(myAssignment._id, { assignmentTitle });
       setUpdateAssignmentTitle(false);
-      toast.success("Assignment title updated!")
+      toast.success(`"${myAssignment.assignmentTitle}" has been updated.`)
     } catch (error) {
-      toast.error("Unable to update assignment title");
+      toast.error(`Unable to update "${myAssignment.assignmentTitle}"`);
     }
   };
 
@@ -143,11 +143,9 @@ export default function AssignmentCard({ myAssignment }) {
                             priority: priorityOption,
                           });
                           setPriorityDropdown(false);
-                          toast.success(
-                            `${myAssignment.assignmentTitle} priority updated`
-                          );
+                          toast.success("Priority updated.");
                         } catch (error) {
-                          toast.error("Unable to update priority");
+                          toast.error("Unable to update priority.");
                         }
                       }}
                     >
@@ -186,9 +184,9 @@ export default function AssignmentCard({ myAssignment }) {
                             status: statusOption,
                           });
                           setStatusDropdown(false);
-                          toast.success("Status updated");
+                          toast.success("Status updated.");
                         } catch (err) {
-                          toast.error("Unable to update status");
+                          toast.error("Unable to update status.");
                         }
                       }}
                     >
@@ -252,10 +250,10 @@ export default function AssignmentCard({ myAssignment }) {
                         await updateAssignment(myAssignment._id, {
                           dueDate: newDate,
                         });
-                        toast.success("Due date updated");
+                        toast.success("Due date updated.");
                         setDueDateDropdown(false);
                       } catch {
-                        toast.error("Unable to update due date");
+                        toast.error("Unable to update due date.");
                       }
                     }}
                     className="px-2 py-1 text-xs text-white bg-green-500 rounded hover:bg-green-600"

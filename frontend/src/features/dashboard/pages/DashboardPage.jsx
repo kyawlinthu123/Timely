@@ -1,7 +1,5 @@
-import HeroSection from '../components/HeroSection'
 import UpcomingDeadlines from '../components/UpcomingDeadlines'
 import ClassesPreview from '../components/ClassesPreview'
-// import CalendarWidget from '../components/CalendarWidget'
 import FocusStats from '../components/FocusStats'
 import TodaysOverview from '../components/TodaysOverview'
 
